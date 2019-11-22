@@ -17,7 +17,7 @@ int main()
 	BitmapImage image(width, height);
 	const Vector3f color(1.0, 0.0, 0.0);
 	image.writeAll(color);
-	image.saveToFile(filename);
+	image.saveToFile("images/" + filename);
 }
 
 const std::string currentDateTime()
