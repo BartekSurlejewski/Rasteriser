@@ -5,11 +5,11 @@
 class Triangle
 {
 public:
-	Triangle(const std::vector<Vector3f>& vertices);
+	Triangle(Vector3f& x, Vector3f& y, Vector3f& z, Vector3f& color);
 
-	std::vector<Vector3f> getVertices() const;
-
-private:
-	std::vector<Vector3f> vertices;
+	Vector3f& v0;
+	Vector3f& v1;
+	Vector3f& v2;
+	Vector3f& color;
 };
 

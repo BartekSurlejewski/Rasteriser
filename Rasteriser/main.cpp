@@ -5,6 +5,7 @@
 #include "BitmapImage.h"
 #include <ctime>
 #include <chrono>
+#include <memory>
 
 const std::string currentDateTime();
 
@@ -14,10 +15,28 @@ int main()
 		width = 500;
 	const std::string filename = currentDateTime() + ".bmp";
 
-	BitmapImage image(width, height);
-	const Vector3f color(1.0, 0.0, 0.0);
-	image.writeAll(color);
-	image.saveToFile("images/" + filename);
+	Vector3f v1 = Vector3f(-1, -1, 0);
+	Vector3f v2 = Vector3f(0, 1, 0);
+	Vector3f v3 = Vector3f(1, -1, 0);
+	Vector3f color = Vector3f(1, 0, 0);
+
+	Triangle t1(v1, v2, v3, color);
+
+	std::vector<std::shared_ptr<Triangle>> tris;
+	tris.push_back(std::make_shared<Triangle>(t1));
+	Primitive p1(tris);
+
+	Scene scene;
+	scene.addPrimitive(p1);
+
+	std::shared_ptr<Image> image(new BitmapImage(width, height));
+	const Vector3f bgColor(0.0, 0.0, 0.0);
+	image->writeAll(bgColor);
+
+	Rasteriser rasteriser(scene, image);
+	rasteriser.print();
+
+	image->saveToFile("images/" + filename);
 }
 
 const std::string currentDateTime()

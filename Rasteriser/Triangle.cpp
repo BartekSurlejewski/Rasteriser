@@ -1,9 +1,4 @@
 #include "pch.h"
 #include "Triangle.h"
 
-Triangle::Triangle(const std::vector<Vector3f>& vertices) : vertices(vertices) {}
-
-std::vector<Vector3f> Triangle::getVertices() const
-{
-	return vertices;
-}
+Triangle::Triangle(Vector3f& x, Vector3f& y, Vector3f& z, Vector3f& color) : v0(x), v1(y), v2(z), color(color) {}

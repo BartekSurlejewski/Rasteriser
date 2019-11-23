@@ -8,9 +8,10 @@ class Scene
 public:
 	Scene() = default;
 	
-	std::vector<Primitive> getPrimitives() const;
+	std::vector<std::shared_ptr<Primitive>> getPrimitives() const;
+	void addPrimitive(const Primitive& primitive);
 
 private:
-	std::vector<Primitive> primitives;
+	std::vector<std::shared_ptr<Primitive>> primitives;
 };
 

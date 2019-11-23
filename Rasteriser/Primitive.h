@@ -6,12 +6,12 @@
 class Primitive
 {
 public:
-	Primitive(const std::vector<Triangle>& triangles);
+	Primitive(std::vector<std::shared_ptr<Triangle>> triangles);
 	Primitive() = default;
 
-	std::vector<Triangle> getTriangles() const;
+	std::vector<std::shared_ptr<Triangle>> getTriangles() const;
 	
 protected:
-	std::vector<Triangle> triangles;
+	std::vector<std::shared_ptr<Triangle>> triangles;
 };
 
