@@ -1,15 +1,17 @@
 #pragma once
-#include <vector>
 #include "Vector3.h"
+#include "Vertex.h"
 
-class Triangle
+struct Triangle
 {
-public:
-	Triangle(Vector3f& x, Vector3f& y, Vector3f& z, Vector3f& color);
+	Triangle(const Vector3f& x, const Vector3f& y, const Vector3f& z, const Vector3f& color);
+	Triangle(const Vertex& v0, const Vertex& v1, const Vertex& v2);
+	Triangle() = default;
+	Triangle(const Triangle& other);
+	Triangle& operator=(const Triangle& other);
 
-	Vector3f& v0;
-	Vector3f& v1;
-	Vector3f& v2;
-	Vector3f& color;
+	Vertex v0;
+	Vertex v1;
+	Vertex v2;
+	Vector3f color;
 };
-

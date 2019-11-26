@@ -10,18 +10,20 @@ public:
 	Vector3(T x, T y, T z);
 	Vector3(T xyz);
 	Vector3();
+	Vector3(const Vector3<T>& other);
+	Vector3<T>& operator=(const Vector3<T>& other);
 
 	Vector3<T> normalized() const;
 	float getMagnitude() const;
-	float dotProduct(const Vector3 &other) const;
-	Vector3<T> crossProduct(const Vector3 &other) const;
+	float dotProduct(const Vector3& other) const;
+	Vector3<T> crossProduct(const Vector3& other) const;
 
 	Vector3<T> operator+() const;
 	Vector3<T> operator-() const;
-	Vector3<T>& operator+=(const Vector3 &other);
-	Vector3<T>& operator-=(const Vector3 &other);
-	Vector3<T>& operator*=(const Vector3 &other);
-	Vector3<T>& operator/=(const Vector3 &other);
+	Vector3<T>& operator+=(const Vector3& other);
+	Vector3<T>& operator-=(const Vector3& other);
+	Vector3<T>& operator*=(const Vector3& other);
+	Vector3<T>& operator/=(const Vector3& other);
 };
 
 template <class T>
@@ -40,6 +42,19 @@ Vector3<T>::Vector3(T xyz) : x(xyz), y(xyz), z(xyz) {}
 
 template <class T>
 Vector3<T>::Vector3() : Vector3(0, 0, 0) {}
+
+template <class T>
+Vector3<T>::Vector3(const Vector3<T>& other) : Vector3(other.x, other.y, other.z) {}
+
+template <class T>
+Vector3<T>& Vector3<T>::operator=(const Vector3<T>& other)
+{
+	x = other.x;
+	y = other.y;
+	z = other.z;
+
+	return *this;
+}
 
 template <class T>
 Vector3<T> Vector3<T>::normalized() const
@@ -68,8 +83,8 @@ template <class T>
 Vector3<T> Vector3<T>::crossProduct(const Vector3<T>& other) const
 {
 	return Vector3((this->y * other.z) - (this->z * other.y),
-		(this->z * other.x) - (this->x * other.z),
-		(this->x * other.y) - (this->y * other.x));
+	               (this->z * other.x) - (this->x * other.z),
+	               (this->x * other.y) - (this->y * other.x));
 }
 
 template <class T>

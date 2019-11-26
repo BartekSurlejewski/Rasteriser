@@ -12,9 +12,11 @@ public:
 
 protected:
 	Vector3f orthogonalProject(const Vector3f& vertex) const;
-	bool pixelContainedIn2DTriangle(const Vector3f& vertex0, const Vector3f& vertex1, const Vector3f& vertex2, unsigned pixelX, unsigned pixelY) const;
+	bool pixelContainedIn2DTriangle(const Vector3f& vertex0, const Vector3f& vertex1, const Vector3f& vertex2,
+	                                unsigned pixelX, unsigned pixelY) const;
 
 	std::shared_ptr<Scene> scene;
 	std::shared_ptr<Image> image;
+	unsigned int imageWidth;
+	unsigned int imageHeight;
 };
-

@@ -30,9 +30,6 @@
     <ClInclude Include="Rasteriser.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ITgaSaveable.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="BitmapImage.h">
       <Filter>Header Files\Image</Filter>
     </ClInclude>
@@ -60,6 +57,12 @@
     <ClInclude Include="Vector4.h">
       <Filter>Header Files\math</Filter>
     </ClInclude>
+    <ClInclude Include="Matrix4x4f.h">
+      <Filter>Header Files\math</Filter>
+    </ClInclude>
+    <ClInclude Include="Vertex.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -84,6 +87,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Triangle.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Matrix4x4f.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Vertex.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

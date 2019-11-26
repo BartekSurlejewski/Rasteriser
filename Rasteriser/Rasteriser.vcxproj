@@ -151,9 +151,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Matrix4x4f.h" />
     <ClInclude Include="Vector3.h" />
     <ClInclude Include="Image.h" />
-    <ClInclude Include="ITgaSaveable.h" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="Primitive.h" />
     <ClInclude Include="Rasteriser.h" />
@@ -163,10 +163,12 @@
     <ClInclude Include="Vector4.h" />
     <ClInclude Include="BitmapImage.h" />
     <ClInclude Include="bitmap_image.hpp" />
+    <ClInclude Include="Vertex.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BitmapImage.cpp" />
     <ClCompile Include="Image.cpp" />
+    <ClCompile Include="Matrix4x4f.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -178,6 +180,7 @@
     <ClCompile Include="Rasteriser.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Triangle.cpp" />
+    <ClCompile Include="Vertex.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

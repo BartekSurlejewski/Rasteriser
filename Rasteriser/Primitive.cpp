@@ -2,9 +2,9 @@
 #include "Primitive.h"
 #include <utility>
 
-Primitive::Primitive(std::vector<std::shared_ptr<Triangle>> triangles) : triangles(std::move(triangles)) {}
+Primitive::Primitive(std::vector<Triangle> triangles) : triangles(triangles) {}
 
-std::vector<std::shared_ptr<Triangle>> Primitive::getTriangles() const
+std::vector<Triangle> Primitive::getTriangles() const
 {
 	return triangles;
 }

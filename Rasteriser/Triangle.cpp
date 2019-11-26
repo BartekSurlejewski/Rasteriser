@@ -1,4 +1,14 @@
 #include "pch.h"
 #include "Triangle.h"
 
-Triangle::Triangle(Vector3f& x, Vector3f& y, Vector3f& z, Vector3f& color) : v0(x), v1(y), v2(z), color(color) {}
+Triangle::Triangle(const Vector3f& x, const Vector3f& y, const Vector3f& z, const Vector3f& color) :
+	v0(Vertex(x, color)), v1(Vertex(y, color)), v2(Vertex(z, color)),
+	color(Vector3f(color)) {}
+
+Triangle::Triangle(const Vertex& v0, const Vertex& v1, const Vertex& v2) : v0(Vertex(v0)),
+                                                                           v1(Vertex(v1)),
+                                                                           v2(Vertex(v2)) {}
+
+Triangle::Triangle(const Triangle& other) : v0(other.v0), v1(other.v1), v2(other.v2) {}
+
+Triangle& Triangle::operator=(const Triangle& other) {}
