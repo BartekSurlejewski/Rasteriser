@@ -6,8 +6,6 @@
 class Scene
 {
 public:
-	Scene() = default;
-	
 	std::vector<std::shared_ptr<Primitive>> getPrimitives() const;
 	void addPrimitive(const Primitive& primitive);
 

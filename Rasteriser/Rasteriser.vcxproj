@@ -152,6 +152,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Matrix4x4f.h" />
+    <ClInclude Include="Settings.h" />
     <ClInclude Include="Vector3.h" />
     <ClInclude Include="Image.h" />
     <ClInclude Include="pch.h" />

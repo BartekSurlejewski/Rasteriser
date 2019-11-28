@@ -10,7 +10,7 @@ public:
 
 	void saveToFile(const std::string &filename) override;
 	Vector3f readPixel(unsigned int x, unsigned int y) const override;
-	void writePixel(unsigned int x, unsigned int y, const Vector3f& color) override;
+	void writePixel(const unsigned int& x, const unsigned int& y, const Vector3f& color) override;
 	void writePixel(unsigned int x, unsigned int y, unsigned char red, unsigned char green, unsigned char blue) override;
 	void writeAll(const Vector3f& color) override;
 	void writeAll(unsigned char red, unsigned char green, unsigned char blue) override;

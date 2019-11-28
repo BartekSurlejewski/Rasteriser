@@ -7,4 +7,6 @@ Vertex& Vertex::operator=(const Vertex& other)
 {
 	position = other.position;
 	color = other.color;
+	
+	return *this;
 }

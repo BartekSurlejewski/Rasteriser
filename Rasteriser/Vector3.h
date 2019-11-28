@@ -1,4 +1,6 @@
 #pragma once
+#include <ostream>
+
 template <class T>
 struct Vector3
 {
@@ -135,6 +137,21 @@ Vector3<T>& Vector3<T>::operator/=(const Vector3<T>& other)
 	return *this;
 }
 
+template <class T>
+std::ostream& operator<<(std::ostream& stream, const Vector3<T>& vector)
+{
+	return stream << "[" << vector.x << ", " << vector.y << ", " << vector.z << "]";
+}
 
 typedef Vector3<int> Vector3i;
 typedef Vector3<float> Vector3f;
+
+inline Vector3f operator*(const Vector3f& left, const Vector3f& right)
+{
+	return {left.x * right.x, left.y * right.y, left.z * right.z};
+}
+
+inline Vector3f operator+(const Vector3f& left, const Vector3f& right)
+{
+	return {left.x + right.x, left.y + right.y, left.z + right.z};
+}

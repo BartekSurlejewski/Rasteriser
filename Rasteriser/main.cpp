@@ -1,7 +1,6 @@
 #include "pch.h"
 #include <iostream>
 #include "Rasteriser.h"
-#include "bitmap_image.hpp"
 #include "BitmapImage.h"
 #include <ctime>
 #include <chrono>
@@ -11,25 +10,36 @@ const std::string currentDateTime();
 
 int main()
 {
-	const unsigned int height = 500,
-		width = 500;
 	const std::string filename = currentDateTime() + ".bmp";
 
-	Vector3f v1 = Vector3f(-0.5, -1, 0);
-	Vector3f v2 = Vector3f(0, 1, 0);
-	Vector3f v3 = Vector3f(0.5, -1, 0);
-	Vector3f color = Vector3f(1, 0, 0);
+	Vector3f v1 = Vector3f(-0.75, -0.75, 0);
+	Vector3f v2 = Vector3f(-0.75, 0.75, 0);
+	Vector3f v3 = Vector3f(0.75, -0.75, 0);
 
-	Triangle t1(v1, v2, v3, color);
+	Vector3f v4 = Vector3f(-0.8, 0.6, -1);
+	Vector3f v5 = Vector3f(-0.8, -0.6, -1);
+	Vector3f v6 = Vector3f(0.75, 0.1, 10);
 
-	std::vector<Triangle> tris;
-	tris.push_back(t1);
+	Vertex vert1(v1, Vector3f(1, 0, 0));
+	Vertex vert2(v2, Vector3f(1, 0, 0));
+	Vertex vert3(v3, Vector3f(1, 0, 0));
+
+	Vertex vert4(v4, Vector3f(0, 1, 0));
+	Vertex vert5(v5, Vector3f(1, 1, 1));
+	Vertex vert6(v6, Vector3f(0, 0, 1));
+
+	Triangle t1(vert1, vert3, vert2);
+	Triangle t2(vert4, vert5, vert6);
+
+	std::vector<Triangle*> tris;
+	tris.push_back(&t1);
+	tris.push_back(&t2);
 	Primitive p1(tris);
 
 	Scene scene;
 	scene.addPrimitive(p1);
 
-	std::shared_ptr<Image> image(new BitmapImage(width, height));
+	std::shared_ptr<Image> image(new BitmapImage(Settings::ImageWidth, Settings::ImageHeight));
 	const Vector3f bgColor(0.0, 0.0, 0.0);
 	image->writeAll(bgColor);
 	Rasteriser rasteriser(scene, image);

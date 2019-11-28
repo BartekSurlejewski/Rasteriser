@@ -10,7 +10,6 @@ BitmapImage::BitmapImage(std::string filepath) : Image(filepath)
 {
 	this->data = bitmap_image(filepath);
 }
-
 void BitmapImage::saveToFile(const std::string& filename)
 {
 	this->data.save_image(filename);
@@ -22,7 +21,7 @@ Vector3f BitmapImage::readPixel(unsigned int x, unsigned int y) const
 	return {color.red / 255.0F, color.green / 255.0F, color.blue / 255.0F};
 }
 
-void BitmapImage::writePixel(unsigned int x, unsigned int y, const Vector3f& color)
+void BitmapImage::writePixel(const unsigned int& x, const unsigned int& y, const Vector3f& color)
 {
 	rgb resultColor = rgb(color.x * 255, color.y * 255, color.z * 255);
 	this->data.set_pixel(x, y, resultColor);

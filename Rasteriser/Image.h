@@ -13,7 +13,7 @@ public:
 	virtual unsigned int getHeight() const;
 	virtual void saveToFile(const std::string &filename) = 0;
 	virtual Vector3f readPixel(unsigned int x, unsigned int y) const = 0;
-	virtual void writePixel(unsigned int x, unsigned int y, const Vector3f& color) = 0;
+	virtual void writePixel(const unsigned int& x, const unsigned int& y, const Vector3f& color) = 0;
 	virtual void writePixel(unsigned int x, unsigned int y, unsigned char red, unsigned char green, unsigned char blue) = 0;
 	virtual void writeAll(const Vector3f& color) = 0;
 	virtual void writeAll(unsigned char red, unsigned char green, unsigned char blue) = 0;
