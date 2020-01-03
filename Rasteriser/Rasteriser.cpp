@@ -5,25 +5,37 @@
 #include "Vector2.h"
 
 Rasteriser::Rasteriser(const Scene& scene, std::shared_ptr<Image>& image) : scene(std::make_shared<Scene>(scene)),
-                                                                            image(image), imageWidth(image->getWidth()),
-                                                                            imageHeight(image->getHeight())
+image(image), imageWidth(image->getWidth()),
+imageHeight(image->getHeight())
 {
-	for(unsigned int i = 0; i < imageWidth; i++)
+	depthBuffer = new float*[imageWidth];
+
+	for (unsigned int i = 0; i < imageWidth; i++)
 	{
-		for (unsigned int  j = 0; j < imageHeight; j++)
+		depthBuffer[i] = new float[imageHeight];
+		for (unsigned j = 0; j < imageHeight; j++)
 		{
 			depthBuffer[i][j] = 256;
 		}
 	}
 }
 
+Rasteriser::~Rasteriser()
+{
+	for (int i = 0; i < imageWidth; i++)
+	{
+		delete[] depthBuffer[i];
+	}
+	delete[] depthBuffer;
+}
+
 void Rasteriser::print()
 {
-	std::vector<std::shared_ptr<Primitive>> primitives = scene->getPrimitives();
-	
-	for (unsigned int i = 0; i < primitives.size(); i++)
+	std::vector<std::shared_ptr<Model>> models = scene->getPrimitives();
+
+	for (unsigned int i = 0; i < models.size(); i++)
 	{
-		const std::shared_ptr<Primitive> primitive = primitives[i];
+		const std::shared_ptr<Model> primitive = models[i];
 		const std::vector<Triangle*> triangles = primitive->getTriangles();
 
 		for (unsigned int j = 0; j < triangles.size(); j++)
@@ -43,15 +55,15 @@ void Rasteriser::print()
 
 			std::cout << "v0: " << v0 << "v1: " << v1 << "v2: " << v2;
 
-			float minx = std::min({v0.x, v1.x, v2.x});
-			float maxx = std::max({v0.x, v1.x, v2.x});
-			float miny = std::min({v0.y, v1.y, v2.y});
-			float maxy = std::max({v0.y, v1.y, v2.y});
+			float minx = std::min({ v0.x, v1.x, v2.x });
+			float maxx = std::max({ v0.x, v1.x, v2.x });
+			float miny = std::min({ v0.y, v1.y, v2.y });
+			float maxy = std::max({ v0.y, v1.y, v2.y });
 
-			minx = std::max({minx, 0.0f});
-			maxx = std::min({maxx, imageWidth - 1.0f});
-			miny = std::max({miny, 0.0f});
-			maxy = std::min({maxy, imageHeight - 1.0f});
+			minx = std::max({ minx, 0.0f });
+			maxx = std::min({ maxx, imageWidth - 1.0f });
+			miny = std::max({ miny, 0.0f });
+			maxy = std::min({ maxy, imageHeight - 1.0f });
 
 			// STEP II: is this pixel contained in the projected image of the triangle?
 			for (unsigned int x = (unsigned int)minx; x < maxx; x++)
@@ -59,11 +71,11 @@ void Rasteriser::print()
 				for (unsigned int y = (unsigned int)miny; y < maxy; y++)
 				{
 					float area = edgeFunction(
-						v0, v1, {static_cast<unsigned int>(v2.x), static_cast<unsigned int>(v2.y)});
+						v0, v1, { static_cast<unsigned int>(v2.x), static_cast<unsigned int>(v2.y) });
 					// area of the triangle multiplied by 2 
-					float lambda0 = edgeFunction(v1, v2, {x, y}); // signed area of the triangle v1v2p multiplied by 2 
-					float lambda1 = edgeFunction(v2, v0, {x, y}); // signed area of the triangle v2v0p multiplied by 2 
-					float lambda2 = edgeFunction(v0, v1, {x, y}); // signed area of the triangle v0v1p multiplied by 2 
+					float lambda0 = edgeFunction(v1, v2, { x, y }); // signed area of the triangle v1v2p multiplied by 2 
+					float lambda1 = edgeFunction(v2, v0, { x, y }); // signed area of the triangle v2v0p multiplied by 2 
+					float lambda2 = edgeFunction(v0, v1, { x, y }); // signed area of the triangle v0v1p multiplied by 2 
 
 					// if point p is inside triangles defined by vertices v0, v1, v2
 					if (lambda0 >= 0 && lambda1 >= 0 && lambda2 >= 0)
@@ -92,7 +104,7 @@ void Rasteriser::print()
 
 inline Vector3f Rasteriser::orthogonalProject(const Vector3f& vertex) const
 {
-	return {(vertex.x + 1) * imageWidth * 0.5f, imageHeight - (vertex.y + 1) * imageHeight * 0.5f, vertex.z};
+	return { (vertex.x + 1) * imageWidth * 0.5f, imageHeight - (vertex.y + 1) * imageHeight * 0.5f, vertex.z };
 }
 
 inline float Rasteriser::edgeFunction(const Vector3f& a, const Vector3f& b, const Vector2<unsigned int>& c) const

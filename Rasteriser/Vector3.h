@@ -155,3 +155,9 @@ inline Vector3f operator+(const Vector3f& left, const Vector3f& right)
 {
 	return {left.x + right.x, left.y + right.y, left.z + right.z};
 }
+
+template <class T>
+Vector3f operator/(const Vector3<T>& left, const float& right)
+{
+	return { left.x / right, left.y / right, left.z / right };
+}

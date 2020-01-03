@@ -153,10 +153,11 @@
   <ItemGroup>
     <ClInclude Include="Matrix4x4f.h" />
     <ClInclude Include="Settings.h" />
+    <ClInclude Include="Transform.h" />
     <ClInclude Include="Vector3.h" />
     <ClInclude Include="Image.h" />
     <ClInclude Include="pch.h" />
-    <ClInclude Include="Primitive.h" />
+    <ClInclude Include="Model.h" />
     <ClInclude Include="Rasteriser.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="Triangle.h" />
@@ -165,6 +166,7 @@
     <ClInclude Include="BitmapImage.h" />
     <ClInclude Include="bitmap_image.hpp" />
     <ClInclude Include="Vertex.h" />
+    <ClInclude Include="VertexProcessor.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BitmapImage.cpp" />
@@ -177,11 +179,13 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="Primitive.cpp" />
+    <ClCompile Include="Model.cpp" />
     <ClCompile Include="Rasteriser.cpp" />
     <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="Transform.cpp" />
     <ClCompile Include="Triangle.cpp" />
     <ClCompile Include="Vertex.cpp" />
+    <ClCompile Include="VertexProcessor.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

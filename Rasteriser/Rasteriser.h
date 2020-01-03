@@ -9,6 +9,7 @@ class Rasteriser
 {
 public:
 	Rasteriser(const Scene& scene, std::shared_ptr<Image>& image);
+	~Rasteriser();
 
 	void print();
 
@@ -32,5 +33,5 @@ private:
 	float dy23;
 	float dy31;
 
-	float depthBuffer[Settings::ImageWidth][Settings::ImageHeight];
+	float** depthBuffer;
 };
