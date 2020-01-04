@@ -1,5 +1,6 @@
 #pragma once
 #include <ostream>
+//#include "Matrix4x4f.h"
 
 template <class T>
 struct Vector3
@@ -85,8 +86,8 @@ template <class T>
 Vector3<T> Vector3<T>::crossProduct(const Vector3<T>& other) const
 {
 	return Vector3((this->y * other.z) - (this->z * other.y),
-	               (this->z * other.x) - (this->x * other.z),
-	               (this->x * other.y) - (this->y * other.x));
+		(this->z * other.x) - (this->x * other.z),
+		(this->x * other.y) - (this->y * other.x));
 }
 
 template <class T>
@@ -146,18 +147,50 @@ std::ostream& operator<<(std::ostream& stream, const Vector3<T>& vector)
 typedef Vector3<int> Vector3i;
 typedef Vector3<float> Vector3f;
 
-inline Vector3f operator*(const Vector3f& left, const Vector3f& right)
+template <class T>
+Vector3<T> operator*(const Vector3<T>& left, const Vector3<T>& right)
 {
-	return {left.x * right.x, left.y * right.y, left.z * right.z};
-}
-
-inline Vector3f operator+(const Vector3f& left, const Vector3f& right)
-{
-	return {left.x + right.x, left.y + right.y, left.z + right.z};
+	return { left.x * right.x, left.y * right.y, left.z * right.z };
 }
 
 template <class T>
-Vector3f operator/(const Vector3<T>& left, const float& right)
+Vector3<T> operator+(const Vector3<T>& left, const Vector3<T>& right)
+{
+	return { left.x + right.x, left.y + right.y, left.z + right.z };
+}
+
+template <class T>
+Vector3<T> operator*(const T& left, const Vector3<T>& right)
+{
+	return { left * right.x, left * right.y, left * right.z };
+}
+
+template <class T>
+Vector3<T> operator+(const T& left, const Vector3<T>& right)
+{
+	return { left + right.x, left + right.y, left + right.z };
+}
+
+template <class T>
+Vector3<T> operator*(const Vector3<T>& left, const T& right)
+{
+	return { left.x * right, left.y * right, left.z * right };
+}
+
+template <class T>
+Vector3<T> operator+(const Vector3<T>& left, T& right)
+{
+	return { left.x + right, left.y + right, left.z + right };
+}
+
+template <class T>
+Vector3<T> operator/(const Vector3<T>& left, const float& right)
 {
 	return { left.x / right, left.y / right, left.z / right };
 }
+
+//template <class T>
+//Vector4<T> operator*(const Vector3<T>& left, const Matrix4x4f& right)
+//{
+//	
+//}

@@ -3,7 +3,7 @@
 #include "Scene.h"
 #include "Image.h"
 #include "Vector2.h"
-#include "Settings.h"
+#include "Camera.h"
 
 class Rasteriser
 {
@@ -20,11 +20,13 @@ protected:
 
 	std::shared_ptr<Scene> scene;
 	std::shared_ptr<Image> image;
+	Camera* camera;
 	unsigned int imageWidth;
 	unsigned int imageHeight;
 
 private:
 	float edgeFunction(const Vector3f& a, const Vector3f& b, const Vector2<unsigned int>& c) const;
+	float edgeFunction(const Vector4f& a, const Vector4f& b, const Vector2<unsigned int>& c) const;
 
 	float dx12;
 	float dx23;

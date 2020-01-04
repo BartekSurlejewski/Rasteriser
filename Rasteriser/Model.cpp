@@ -7,3 +7,8 @@ std::vector<Triangle*> Model::getTriangles() const
 {
 	return triangles;
 }
+
+Transform* Model::getTransform()
+{
+	return &transform;
+}

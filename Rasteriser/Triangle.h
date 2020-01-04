@@ -1,6 +1,5 @@
 #pragma once
 #include "Vertex.h"
-#include "Vector2.h"
 
 struct Triangle
 {

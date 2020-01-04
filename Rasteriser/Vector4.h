@@ -14,6 +14,7 @@ struct Vector4
 	Vector4(const Vector3<T>& v, T w);
 	Vector4(const Vector4<T>& other);
 	Vector4<T>& operator=(const Vector4<T>& other);
+	//Vector4<T>& operator=(const Vector3<T>& other);
 
 	Vector3<T> GetVector3() const;
 	Vector4<T> DivideW() const;
@@ -72,6 +73,17 @@ Vector4<T>& Vector4<T>::operator=(const Vector4<T>& other)
 
 	return *this;
 }
+
+//template <class T>
+//Vector4<T>& Vector4<T>::operator=(const Vector3<T>& other)
+//{
+//	x = other.x;
+//	y = other.y;
+//	z = other.z;
+//	w = (T)1;
+//
+//	return *this;
+//}
 
 template <class T>
 Vector3<T> Vector4<T>::GetVector3() const

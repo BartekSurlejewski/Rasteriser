@@ -8,8 +8,8 @@ class Transform
 public:
 	Transform();
 
-	Matrix4x4f getWorldMatrix() const;
-	void setWorldMatrix(const Matrix4x4f& worldMatrix);
+	Matrix4x4f& getWorldMatrix();
+	void setWorldMatrix(Matrix4x4f& worldMatrix);
 
 	void translate(const Vector3f& translation);
 	void scale(const Vector3f& v);

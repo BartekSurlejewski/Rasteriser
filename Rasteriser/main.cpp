@@ -5,6 +5,7 @@
 #include <ctime>
 #include <chrono>
 #include <memory>
+#include "Settings.h"
 
 const std::string currentDateTime();
 

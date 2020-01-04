@@ -18,6 +18,8 @@ imageHeight(image->getHeight())
 			depthBuffer[i][j] = 256;
 		}
 	}
+
+	camera = new Camera();
 }
 
 Rasteriser::~Rasteriser()
@@ -27,6 +29,7 @@ Rasteriser::~Rasteriser()
 		delete[] depthBuffer[i];
 	}
 	delete[] depthBuffer;
+	delete camera;
 }
 
 void Rasteriser::print()
@@ -37,14 +40,24 @@ void Rasteriser::print()
 	{
 		const std::shared_ptr<Model> primitive = models[i];
 		const std::vector<Triangle*> triangles = primitive->getTriangles();
+		Transform* transform = primitive->getTransform();
+
+		Matrix4x4f wvp(1.0f);
+		wvp = wvp * transform->getWorldMatrix();
+		wvp = wvp * camera->getViewMatrix();
+		wvp = wvp * camera->getProjectionMatrix();
+
+		/*wvp = wvp * camera->getProjectionMatrix();
+		wvp = wvp * camera->getViewMatrix();
+		wvp = wvp * transform->getWorldMatrix();		*/
 
 		for (unsigned int j = 0; j < triangles.size(); j++)
 		{
 			// STEP I: project vertices of the triangle using perspective projection
 			Triangle* triangle = triangles[j];
-			Vector3f v0 = orthogonalProject(triangle->v0.position);
-			Vector3f v1 = orthogonalProject(triangle->v1.position);
-			Vector3f v2 = orthogonalProject(triangle->v2.position);
+			Vector4f v0 = wvp * orthogonalProject(triangle->v0.position);
+			Vector4f v1 = wvp * orthogonalProject(triangle->v1.position);
+			Vector4f v2 = wvp * orthogonalProject(triangle->v2.position);
 
 			dx12 = v0.x - v1.x;
 			dx23 = v1.x - v2.x;
@@ -108,6 +121,11 @@ inline Vector3f Rasteriser::orthogonalProject(const Vector3f& vertex) const
 }
 
 inline float Rasteriser::edgeFunction(const Vector3f& a, const Vector3f& b, const Vector2<unsigned int>& c) const
+{
+	return (c.x - a.x) * (b.y - a.y) - (c.y - a.y) * (b.x - a.x);
+}
+
+inline float Rasteriser::edgeFunction(const Vector4f& a, const Vector4f& b, const Vector2<unsigned>& c) const
 {
 	return (c.x - a.x) * (b.y - a.y) - (c.y - a.y) * (b.x - a.x);
 }

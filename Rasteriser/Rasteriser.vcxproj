@@ -166,7 +166,7 @@
     <ClInclude Include="BitmapImage.h" />
     <ClInclude Include="bitmap_image.hpp" />
     <ClInclude Include="Vertex.h" />
-    <ClInclude Include="VertexProcessor.h" />
+    <ClInclude Include="Camera.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BitmapImage.cpp" />
@@ -185,7 +185,7 @@
     <ClCompile Include="Transform.cpp" />
     <ClCompile Include="Triangle.cpp" />
     <ClCompile Include="Vertex.cpp" />
-    <ClCompile Include="VertexProcessor.cpp" />
+    <ClCompile Include="Camera.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
