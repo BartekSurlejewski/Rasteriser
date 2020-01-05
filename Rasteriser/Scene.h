@@ -1,15 +1,15 @@
 #pragma once
 #include <vector>
-#include "Model.h"
+#include "Mesh.h"
 #include <memory>
 
 class Scene
 {
 public:
-	std::vector<std::shared_ptr<Model>> getPrimitives() const;
-	void addPrimitive(const Model& primitive);
+	std::vector<std::shared_ptr<Mesh>> getPrimitives() const;
+	void addPrimitive(const Mesh& primitive);
 
 private:
-	std::vector<std::shared_ptr<Model>> primitives;
+	std::vector<std::shared_ptr<Mesh>> primitives;
 };
 

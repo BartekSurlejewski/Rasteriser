@@ -31,12 +31,20 @@ inline Vector4f operator*(Matrix4x4f& left, const Vector4f& right)
 	float y = left[4] * right.y + left[5] * right.y + left[6] * right.y + left[7] * right.y;
 	float z = left[8] * right.z + left[9] * right.z + left[10] * right.z + left[11] * right.z;
 	float w = left[12] * right.w + left[13] * right.w + left[14] * right.w + left[15] * right.w;
+
+	/*float x = left[0] * right.x + left[1] * right.y + left[2] * right.z + left[3] * right.w;
+	float y = left[4] * right.x + left[5] * right.y + left[6] * right.z + left[7] * right.w;
+	float z = left[8] * right.x + left[9] * right.y + left[10] * right.z + left[11] * right.w;
+	float w = left[12] * right.x + left[13] * right.y + left[14] * right.z + left[15] * right.w;*/
+	
 	return Vector4f(x, y, z, w);
 }
 
-inline Vector4f operator*(Matrix4x4f& left, const Vector3f& right)
+inline Vector3f operator*(Matrix4x4f& left, const Vector3f& right)
 {
-	return left * Vector4f(right, 1);
+	Vector4f vec4 = left * Vector4f(right, 1);
+	float w = vec4.w;
+	return {vec4.x / w, vec4.y / w, vec4.z / w};
 }
 
 inline Matrix4x4f& operator*(Matrix4x4f& left, Matrix4x4f& right)
@@ -53,5 +61,6 @@ inline Matrix4x4f& operator*(Matrix4x4f& left, Matrix4x4f& right)
 				sum += left[size * i + k] * right[size * k + j];
 			m[size * i + j] = sum;
 		}
+	
 	return m;
 }

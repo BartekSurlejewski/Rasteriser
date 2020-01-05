@@ -3,8 +3,8 @@
 
 Camera::Camera()
 {
-	setLookAt({ 0, 0, 5.0f }, { 0.0f }, Vector3f( 0.0f, 1.0f, 0.0f ));
-	setPerspective(90.0f, 1.0f, 0.2f, 5.0f);
+	setLookAt({ 0, 0, 15.0f }, { 0.0f }, Vector3f( 0.0f, 1.0f, 0.0f ));
+	setPerspective(90.0f, 1.0f, 0.01f, 50.0f);
 }
 
 Matrix4x4f& Camera::getViewMatrix()
@@ -20,11 +20,11 @@ Matrix4x4f& Camera::getProjectionMatrix()
 void Camera::setPerspective(float fovY, const float& aspect, const float& near, const float& far)
 {
 	fovY *= 0.0087263f;
-	float f = cos(fovY) / sin(fovY);
-	/*Matrix4x4f matrix = Matrix4x4f(f / aspect, 0, 0, 0,
-									0, f, 0, 0,
-									0, 0, (far + near) / (near - far), -1,
-									0, 0, 2 * far * near / (near - far), 0);*/
+	float f = cos(fovY) / sin(fovY);  
+	//Matrix4x4f matrix = Matrix4x4f(f / aspect, 0, 0, 0,
+	//								0, f, 0, 0,
+	//								0, 0, (far + near) / (near - far), 1,
+	//								0, 0, 2 * far * near / (near - far), 0);
 
 	Matrix4x4f matrix = Matrix4x4f(f / aspect, 0, 0, 0,
 									0, f, 0, 0,

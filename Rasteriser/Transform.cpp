@@ -3,11 +3,14 @@
 
 Transform::Transform()
 {
-	Vector3f rotationVector = Vector3f(0, 1, 0);
+	Matrix4x4f mat(1);
+	worldMatrix = mat;
+	
+	Vector3f rotationVector = Vector3f(0, 0, 0);
 	Vector3f translationVector = Vector3f(0, 0, 0);
 
 	scale({ 1, 1, 1 });
-	rotate(45, rotationVector);
+	rotate(0, rotationVector);
 	translate(translationVector);
 }
 Matrix4x4f& Transform::getWorldMatrix() { return worldMatrix; }
@@ -25,22 +28,22 @@ void Transform::translate(const Vector3f& translation)
 		0, 0, 1, translation.z,
 		0, 0, 0, 1);
 
-	worldMatrix = m * worldMatrix;
+	worldMatrix = worldMatrix * m;
 }
 
 void Transform::scale(const Vector3f& v)
 {
-	/*Matrix4x4f m = Matrix4x4f(v.x, 0, 0, 0,
+	Matrix4x4f m = Matrix4x4f(v.x, 0, 0, 0,
 		0, v.y, 0, 0,
 		0, 0, v.z, 0,
-		0, 0, 0, 1);*/
+		0, 0, 0, 1);
 
-	Matrix4x4f m = Matrix4x4f(v.x, 0, 0, 0,
+	/*Matrix4x4f m = Matrix4x4f(v.x, 0, 0, 0,
 								0, v.y, 0, 0,
 								0, 0, v.z, 0,
-								0, 0, 0, 1);
+								0, 0, 0, 1);*/
 
-	worldMatrix = m * worldMatrix;
+	worldMatrix = worldMatrix * m;
 }
 
 void Transform::rotate(const float& angle, Vector3f& rotationVector)
@@ -60,5 +63,5 @@ void Transform::rotate(const float& angle, Vector3f& rotationVector)
 		rotationVector.x * rotationVector.z * (1 - c) - rotationVector.y * s,  rotationVector.y * rotationVector.z * (1 - c) + rotationVector.x * s, rotationVector.z * rotationVector.z * (1 - c) + c, 0,
 		0, 0, 0, 1);
 
-	worldMatrix = m * worldMatrix;
+	worldMatrix = worldMatrix * m;
 }

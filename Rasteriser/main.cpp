@@ -35,7 +35,7 @@ int main()
 	std::vector<Triangle*> tris;
 	tris.push_back(&t1);
 	tris.push_back(&t2);
-	Model p1(tris);
+	Mesh p1(tris);
 
 	Scene scene;
 	scene.addPrimitive(p1);

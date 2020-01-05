@@ -34,11 +34,11 @@ Rasteriser::~Rasteriser()
 
 void Rasteriser::print()
 {
-	std::vector<std::shared_ptr<Model>> models = scene->getPrimitives();
+	std::vector<std::shared_ptr<Mesh>> models = scene->getPrimitives();
 
 	for (unsigned int i = 0; i < models.size(); i++)
 	{
-		const std::shared_ptr<Model> primitive = models[i];
+		const std::shared_ptr<Mesh> primitive = models[i];
 		const std::vector<Triangle*> triangles = primitive->getTriangles();
 		Transform* transform = primitive->getTransform();
 
@@ -47,17 +47,21 @@ void Rasteriser::print()
 		wvp = wvp * camera->getViewMatrix();
 		wvp = wvp * camera->getProjectionMatrix();
 
-		/*wvp = wvp * camera->getProjectionMatrix();
+	/*	wvp = wvp * camera->getProjectionMatrix();
 		wvp = wvp * camera->getViewMatrix();
-		wvp = wvp * transform->getWorldMatrix();		*/
+		wvp = wvp * transform->getWorldMatrix();*/
 
 		for (unsigned int j = 0; j < triangles.size(); j++)
 		{
 			// STEP I: project vertices of the triangle using perspective projection
 			Triangle* triangle = triangles[j];
-			Vector4f v0 = wvp * orthogonalProject(triangle->v0.position);
-			Vector4f v1 = wvp * orthogonalProject(triangle->v1.position);
-			Vector4f v2 = wvp * orthogonalProject(triangle->v2.position);
+			Vector3f v0 = wvp * orthogonalProject(triangle->v0.position);
+			Vector3f v1 = wvp * orthogonalProject(triangle->v1.position);
+			Vector3f v2 = wvp * orthogonalProject(triangle->v2.position);
+
+			/*Vector4f v0 = wvp * triangle->v0.position;
+			Vector4f v1 = wvp * triangle->v1.position;
+			Vector4f v2 = wvp * triangle->v2.position;*/
 
 			dx12 = v0.x - v1.x;
 			dx23 = v1.x - v2.x;

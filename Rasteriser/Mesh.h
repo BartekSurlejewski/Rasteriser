@@ -3,13 +3,15 @@
 #include "Triangle.h"
 #include "Transform.h"
 
-class Model
+class Mesh
 {
 public:
-	Model(std::vector<Triangle*> triangles);
+	Mesh(std::vector<Triangle*> triangles);
 
 	std::vector<Triangle*> getTriangles() const;
 	Transform* getTransform();
+
+	bool LoadObjFile(std::string filename, const Vector3f& color);
 	
 protected:
 	Transform transform;
