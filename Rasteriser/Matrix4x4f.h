@@ -67,15 +67,14 @@ inline Matrix4x4f operator*(Matrix4x4f& left, Matrix4x4f& right)
 {
 	Matrix4x4f m;
 	int N = Matrix4x4f::N;
-	int size = N * N;
 
 	for (int i = 0; i < N; i++)
 		for (int j = 0; j < N; j++)
 		{
 			float sum = 0.0f;
 			for (int k = 0; k < N; ++k)
-				sum += left[size * i + k] * right[size * k + j];
-			m[size * i + j] = sum;
+				sum += left[N * i + k] * right[N * k + j];
+			m[N * i + j] = sum;
 		}
 	
 	return m;

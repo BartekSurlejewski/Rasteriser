@@ -3,15 +3,7 @@
 
 Transform::Transform()
 {
-	Matrix4x4f mat = Matrix4x4f::Identity();
-	worldMatrix = mat;
-	
-	Vector3f rotationVector = Vector3f(1, 0, 0);
-	Vector3f translationVector = Vector3f(0, 0, 0);
-
-	scale({ 1, 1, 1 });
-	rotate(30, rotationVector);
-	translate(translationVector);
+	worldMatrix = Matrix4x4f::Identity();
 }
 Matrix4x4f Transform::getWorldMatrix() { return worldMatrix; }
 void Transform::setWorldMatrix(Matrix4x4f& worldMatrix) { this->worldMatrix = worldMatrix; }
@@ -37,11 +29,6 @@ void Transform::scale(const Vector3f& v)
 		0, v.y, 0, 0,
 		0, 0, v.z, 0,
 		0, 0, 0, 1);
-
-	/*Matrix4x4f m = Matrix4x4f(v.x, 0, 0, 0,
-								0, v.y, 0, 0,
-								0, 0, v.z, 0,
-								0, 0, 0, 1);*/
 
 	worldMatrix = worldMatrix * m;
 }

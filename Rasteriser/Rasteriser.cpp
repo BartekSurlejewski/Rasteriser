@@ -40,13 +40,13 @@ void Rasteriser::print(const Camera& camera)
 		Transform* transform = &primitive->getTransform();
 
 		Matrix4x4f wvp = Matrix4x4f::Identity();
-		wvp *= transform->getWorldMatrix();
+		//wvp *= transform->getWorldMatrix();
 		//wvp *= camera.getViewMatrix();
 		//wvp *= camera.getProjectionMatrix();
 
-		/*wvp *= camera.getProjectionMatrix();
+		wvp *= camera.getProjectionMatrix();
 		wvp *= camera.getViewMatrix();
-		wvp *= transform->getWorldMatrix();*/
+		wvp *= transform->getWorldMatrix();
 
 		for (unsigned int j = 0; j < triangles.size(); j++)
 		{

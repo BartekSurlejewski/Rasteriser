@@ -41,7 +41,9 @@ int main()
 
 	Mesh m2("models/cube.obj", Vector3f(1, 0, 0));
 
-	scene.addPrimitive(m2);
+	m1.getTransform().translate({ 0, 0, 0 });
+	
+	scene.addPrimitive(m1);
 	
 	std::shared_ptr<Image> image(new BitmapImage(Settings::ImageWidth, Settings::ImageHeight));
 	const Vector3f bgColor(0.0, 0.0, 0.0);
@@ -49,7 +51,7 @@ int main()
 	Rasteriser rasteriser(scene, image);
 	
 	Camera camera;
-	camera.setLookAt({ 0, 0, 0.0f }, { 0.0f }, Vector3f(0.0f, -1.0f, 0.0f));
+	camera.setLookAt({ 10, 0, 15.0f }, { 0.0f }, Vector3f(0.0f, 1.0f, 0.0f));
 	camera.setPerspective(90.0f, 1.0f, 0.01f, 50.0f);
 	
 	std::cout << "Rendering scene with: " << scene.getPrimitives().size() << (scene.getPrimitives().size() == 1 ? " object\n" : " objects\n");

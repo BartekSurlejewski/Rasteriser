@@ -54,14 +54,6 @@ float& Matrix4x4f::operator[](int index)
 
 Matrix4x4f& Matrix4x4f::operator*=(Matrix4x4f& other)
 {
-	/*for (int i = 0; i < N; i++)
-		for (int j = 0; j < N; j++)
-		{
-			float sum = 0.0f;
-			for (int k = 0; k < N; ++k)
-				sum += M[size * i + k] * other[size * k + j];
-			this->M[size * i + j] = sum;
-		}*/
 	*this = *this * other;
 	return *this;
 }
