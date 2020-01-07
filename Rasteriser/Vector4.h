@@ -130,6 +130,12 @@ Vector4<T> operator/(const Vector4<T>& v, float f)
 }
 
 template <class T>
+Vector4<T> operator/=(const Vector4<T>& v, float f)
+{
+	return v / f;
+}
+
+template <class T>
 Vector4<T> operator*(float f, const Vector4<T>& v)
 {
 	return v * f;
@@ -139,6 +145,12 @@ template <class T>
 Vector4<T> operator/(float f, const Vector4<T>& v)
 {
 	assert(f != 0.0f);
+	return v / f;
+}
+
+template <class T>
+Vector4<T> operator/=(float f, const Vector4<T>& v)
+{
 	return v / f;
 }
 
@@ -203,7 +215,7 @@ float Dot(const Vector4<T>& left, const Vector4<T>& right)
 template <class T>
 std::ostream& operator<<(std::ostream& stream, const Vector4<T>& vector)
 {
-	return stream << "[" << vector.x << ", " << vector.y << ", " << vector.z << ', ' << vector.w << "]";
+	return stream << "[x: " << vector.x << ", y: " << vector.y << ", z: " << vector.z << ", w: " << vector.w << "]";
 }
 
 typedef Vector4<int> Vector4i;

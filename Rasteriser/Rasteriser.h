@@ -8,19 +8,18 @@
 class Rasteriser
 {
 public:
-	Rasteriser(const Scene& scene, std::shared_ptr<Image>& image);
+	Rasteriser(Scene& scene, std::shared_ptr<Image>& image);
 	~Rasteriser();
 
-	void print();
+	void print(const Camera& camera);
 
 protected:
 	Vector3f orthogonalProject(const Vector3f& vertex) const;
 	Vector3f getBarycentricCoords(const Vector3f& vertex0, const Vector3f& vertex1, const Vector3f& vertex2,
 	                              const unsigned int& pixelX, const unsigned int& pixelY) const;
 
-	std::shared_ptr<Scene> scene;
+	Scene* scene;
 	std::shared_ptr<Image> image;
-	Camera* camera;
 	unsigned int imageWidth;
 	unsigned int imageHeight;
 

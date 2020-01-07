@@ -2,20 +2,32 @@
 #include "Mesh.h"
 #include <fstream>
 #include <strstream>
+#include "OBJLoader.h"
 
-Mesh::Mesh(std::vector<Triangle*> triangles) : triangles(std::move(triangles)) {}
-
-std::vector<Triangle*> Mesh::getTriangles() const
+Mesh::Mesh(std::string filename, const Vector3f& color)
 {
-	return triangles;
+	OBJLoader* loader = new OBJLoader();
+	loader->loadMesh(filename, *this, false);
+	delete loader;
+}
+Mesh::Mesh(std::vector<Triangle*> triangles) : faces(std::move(triangles)) {}
+
+std::vector<Triangle*> Mesh::getFaces() const
+{
+	return faces;
 }
 
-Transform* Mesh::getTransform()
+void Mesh::setFaces(const std::vector<Triangle*>& faces)
 {
-	return &transform;
+	this->faces = faces;
 }
 
-bool Mesh::LoadObjFile(std::string filename, const Vector3f& color)
+Transform Mesh::getTransform() const
+{
+	return transform;
+}
+
+bool Mesh::loadObjFile(std::string filename, const Vector3f& color)
 {
 	std::ifstream f(filename);
 	if (!f.is_open())
@@ -34,20 +46,20 @@ bool Mesh::LoadObjFile(std::string filename, const Vector3f& color)
 
 		char junk;
 
-		if(line[0] == 'v')
+		if (line[0] == 'v')
 		{
 			Vector3f v;
 			stream >> junk >> v.x >> v.y >> v.z;
 			verts.push_back(v);
 		}
-		else if(line[0] == 'f')
+		else if (line[0] == 'f')
 		{
 			int f[3];
 			stream >> junk >> f[0] >> f[1] >> f[2];
 
 			Triangle t(verts[f[0] - 1], verts[f[1] - 1], verts[f[2] - 1], color);
-			
-			triangles.push_back(&t);
+
+			faces.push_back(&t);
 		}
 	}
 

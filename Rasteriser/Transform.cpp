@@ -3,17 +3,17 @@
 
 Transform::Transform()
 {
-	Matrix4x4f mat(1);
+	Matrix4x4f mat = Matrix4x4f::Identity();
 	worldMatrix = mat;
 	
-	Vector3f rotationVector = Vector3f(0, 0, 0);
+	Vector3f rotationVector = Vector3f(1, 0, 0);
 	Vector3f translationVector = Vector3f(0, 0, 0);
 
 	scale({ 1, 1, 1 });
-	rotate(0, rotationVector);
+	rotate(30, rotationVector);
 	translate(translationVector);
 }
-Matrix4x4f& Transform::getWorldMatrix() { return worldMatrix; }
+Matrix4x4f Transform::getWorldMatrix() { return worldMatrix; }
 void Transform::setWorldMatrix(Matrix4x4f& worldMatrix) { this->worldMatrix = worldMatrix; }
 
 void Transform::translate(const Vector3f& translation)

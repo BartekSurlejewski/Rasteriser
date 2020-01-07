@@ -86,7 +86,7 @@ template <class T>
 Vector3<T> Vector3<T>::crossProduct(const Vector3<T>& other) const
 {
 	return Vector3((this->y * other.z) - (this->z * other.y),
-		(this->z * other.x) - (this->x * other.z),
+		(this->x * other.z) - (this->z * other.x),
 		(this->x * other.y) - (this->y * other.x));
 }
 

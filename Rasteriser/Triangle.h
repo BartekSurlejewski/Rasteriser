@@ -7,6 +7,7 @@ struct Triangle
 	Triangle(const Vertex& v0, const Vertex& v1, const Vertex& v2);
 	Triangle(const Triangle& other);
 	Triangle& operator=(const Triangle& other);
+	Triangle();
 	
 	Vertex v0;
 	Vertex v1;

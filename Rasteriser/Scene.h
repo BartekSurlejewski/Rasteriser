@@ -6,10 +6,12 @@
 class Scene
 {
 public:
-	std::vector<std::shared_ptr<Mesh>> getPrimitives() const;
-	void addPrimitive(const Mesh& primitive);
+	Scene& operator=(const Scene& other);
+	
+	std::vector<Mesh*> getPrimitives() const;
+	void addPrimitive(Mesh& primitive);
 
 private:
-	std::vector<std::shared_ptr<Mesh>> primitives;
+	std::vector<Mesh*> primitives;
 };
 

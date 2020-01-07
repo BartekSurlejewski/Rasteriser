@@ -17,16 +17,14 @@ Matrix4x4f::Matrix4x4f(float m0, float m1, float m2, float m3, float m4, float m
 
 Matrix4x4f::Matrix4x4f(float diag)
 {
-	for (int i = 0; i < size; i++)
+	for (int i = 0; i < 16; i++)
 	{
-		if (i % N == i < N)
-		{
-			M[i] = diag;
-		}
-		else
-		{
-			M[i] = 0.0f;
-		}
+		M[i] = 0;
+	}
+	
+	for (int i = 0; i < 4; i++)
+	{
+		M[i * 4 + i] = diag;
 	}
 }
 
@@ -36,13 +34,13 @@ Matrix4x4f::Matrix4x4f(const Vector4f& v1, const Vector4f& v2, const Vector4f& v
 	v3.x, v3.y, v3.z, v3.w,
 	o.x, o.y, o.z, o.w) {}
 
-Matrix4x4f& Matrix4x4f::operator=(Matrix4x4f& other)
+Matrix4x4f& Matrix4x4f::operator=(Matrix4x4f other)
 {
-	for(int i = 0; i < size; i++)
+	for (int i = 0; i < size; i++)
 	{
 		M[i] = other[i];
 	}
-	
+
 	return *this;
 }
 
@@ -64,7 +62,14 @@ Matrix4x4f& Matrix4x4f::operator*=(Matrix4x4f& other)
 				sum += M[size * i + k] * other[size * k + j];
 			this->M[size * i + j] = sum;
 		}*/
-	return *this * other;
+	*this = *this * other;
+	return *this;
+}
+
+Matrix4x4f& Matrix4x4f::operator*=(Matrix4x4f other)
+{
+	*this = *this * other;
+	return *this;
 }
 
 Matrix4x4f& Matrix4x4f::operator*=(float scalar)
@@ -74,13 +79,23 @@ Matrix4x4f& Matrix4x4f::operator*=(float scalar)
 	return *this;
 }
 
-Matrix4x4f& Matrix4x4f::Transpose(const Matrix4x4f& M)
+Matrix4x4f& Matrix4x4f::Transpose()
 {
-	Matrix4x4f N = M;
+	//Matrix4x4f N = M;
 	for (int i = 0; i < Matrix4x4f::N; ++i)
 		for (int j = i + 1; j < Matrix4x4f::N; ++j)
 		{
-			std::swap(N[size * i + j], N[size * j + i]);
+			std::swap(this[size * i + j], this[size * j + i]);
 		}
-	return N;
+	return *this;
+}
+
+Matrix4x4f Matrix4x4f::Identity()
+{
+	Matrix4x4f m(1, 0, 0, 0,
+		0, 1, 0, 0,
+		0, 0, 1, 0,
+		0, 0, 0, 1);
+	
+	return m;
 }

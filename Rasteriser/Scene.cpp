@@ -1,12 +1,19 @@
 #include "pch.h"
 #include "Scene.h"
 
-std::vector<std::shared_ptr<Mesh>> Scene::getPrimitives() const
+Scene& Scene::operator=(const Scene& other)
+{
+	primitives = other.getPrimitives();
+
+	return *this;
+}
+
+std::vector<Mesh*> Scene::getPrimitives() const
 {
 	return primitives;
 }
 
-void Scene::addPrimitive(const Mesh& primitive)
+void Scene::addPrimitive(Mesh& primitive)
 {
-	primitives.push_back(std::make_shared<Mesh>(primitive));
+	primitives.push_back(&primitive);
 }

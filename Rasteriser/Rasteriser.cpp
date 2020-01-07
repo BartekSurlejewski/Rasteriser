@@ -4,7 +4,7 @@
 #include <iostream>
 #include "Vector2.h"
 
-Rasteriser::Rasteriser(const Scene& scene, std::shared_ptr<Image>& image) : scene(std::make_shared<Scene>(scene)),
+Rasteriser::Rasteriser(Scene& scene, std::shared_ptr<Image>& image) : scene(&scene),
 image(image), imageWidth(image->getWidth()),
 imageHeight(image->getHeight())
 {
@@ -18,8 +18,6 @@ imageHeight(image->getHeight())
 			depthBuffer[i][j] = 256;
 		}
 	}
-
-	camera = new Camera();
 }
 
 Rasteriser::~Rasteriser()
@@ -29,48 +27,46 @@ Rasteriser::~Rasteriser()
 		delete[] depthBuffer[i];
 	}
 	delete[] depthBuffer;
-	delete camera;
 }
 
-void Rasteriser::print()
+void Rasteriser::print(const Camera& camera)
 {
-	std::vector<std::shared_ptr<Mesh>> models = scene->getPrimitives();
+	std::vector<Mesh*> models = scene->getPrimitives();
 
 	for (unsigned int i = 0; i < models.size(); i++)
 	{
-		const std::shared_ptr<Mesh> primitive = models[i];
-		const std::vector<Triangle*> triangles = primitive->getTriangles();
-		Transform* transform = primitive->getTransform();
+		const Mesh* primitive = models[i];
+		const std::vector<Triangle*> triangles = primitive->getFaces();
+		Transform* transform = &primitive->getTransform();
 
-		Matrix4x4f wvp(1.0f);
-		wvp = wvp * transform->getWorldMatrix();
-		wvp = wvp * camera->getViewMatrix();
-		wvp = wvp * camera->getProjectionMatrix();
+		Matrix4x4f wvp = Matrix4x4f::Identity();
+		wvp *= transform->getWorldMatrix();
+		//wvp *= camera.getViewMatrix();
+		//wvp *= camera.getProjectionMatrix();
 
-	/*	wvp = wvp * camera->getProjectionMatrix();
-		wvp = wvp * camera->getViewMatrix();
-		wvp = wvp * transform->getWorldMatrix();*/
+		/*wvp *= camera.getProjectionMatrix();
+		wvp *= camera.getViewMatrix();
+		wvp *= transform->getWorldMatrix();*/
 
 		for (unsigned int j = 0; j < triangles.size(); j++)
 		{
 			// STEP I: project vertices of the triangle using perspective projection
 			Triangle* triangle = triangles[j];
-			Vector3f v0 = wvp * orthogonalProject(triangle->v0.position);
-			Vector3f v1 = wvp * orthogonalProject(triangle->v1.position);
-			Vector3f v2 = wvp * orthogonalProject(triangle->v2.position);
 
-			/*Vector4f v0 = wvp * triangle->v0.position;
-			Vector4f v1 = wvp * triangle->v1.position;
-			Vector4f v2 = wvp * triangle->v2.position;*/
+			Vector3f vx = orthogonalProject(triangle->v0.position);
+			Vector3f vy = orthogonalProject(triangle->v1.position);
+			Vector3f vz = orthogonalProject(triangle->v2.position);
+			
+			Vector4f v0 = wvp * vx;
+			Vector4f v1 = wvp * vy;
+			Vector4f v2 = wvp * vz;
 
-			dx12 = v0.x - v1.x;
-			dx23 = v1.x - v2.x;
-			dx31 = v2.x - v0.x;
-			dy12 = v0.y - v1.y;
-			dy23 = v1.y - v2.y;
-			dy31 = v2.y - v0.y;
+			v0 /= v0.w;
+			v1 /= v1.w;
+			v2 /= v2.w;
 
-			std::cout << "v0: " << v0 << "v1: " << v1 << "v2: " << v2;
+			std::cout << "vx: " << vx << "vy: " << vy << "vz: " << vz << std::endl;
+			std::cout << "v0: " << v0 << "v1: " << v1 << "v2: " << v2 << std::endl;
 
 			float minx = std::min({ v0.x, v1.x, v2.x });
 			float maxx = std::max({ v0.x, v1.x, v2.x });

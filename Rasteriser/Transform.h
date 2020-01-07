@@ -8,7 +8,7 @@ class Transform
 public:
 	Transform();
 
-	Matrix4x4f& getWorldMatrix();
+	Matrix4x4f getWorldMatrix();
 	void setWorldMatrix(Matrix4x4f& worldMatrix);
 
 	void translate(const Vector3f& translation);
