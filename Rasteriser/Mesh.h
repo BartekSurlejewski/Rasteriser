@@ -12,7 +12,7 @@ public:
 
 	std::vector<Triangle*> getFaces() const;
 	void setFaces(const std::vector<Triangle*>& faces);
-	Transform getTransform() const;
+	Transform* getTransform();
 
 	bool loadObjFile(std::string filename, const Vector3f& color);
 	

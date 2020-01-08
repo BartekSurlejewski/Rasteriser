@@ -29,37 +29,42 @@ Rasteriser::~Rasteriser()
 	delete[] depthBuffer;
 }
 
-void Rasteriser::print(const Camera& camera)
+void Rasteriser::print(const Camera& camera) const
 {
 	std::vector<Mesh*> models = scene->getPrimitives();
 
 	for (unsigned int i = 0; i < models.size(); i++)
 	{
-		const Mesh* primitive = models[i];
+		Mesh* primitive = models[i];
 		const std::vector<Triangle*> triangles = primitive->getFaces();
-		Transform* transform = &primitive->getTransform();
+		Transform* transform = primitive->getTransform();
 
 		Matrix4x4f wvp = Matrix4x4f::Identity();
-		//wvp *= transform->getWorldMatrix();
-		//wvp *= camera.getViewMatrix();
-		//wvp *= camera.getProjectionMatrix();
+		Matrix4x4f w = transform->getWorldMatrix();
+		Matrix4x4f v = camera.getViewMatrix();
+		Matrix4x4f p = camera.getProjectionMatrix();
+		wvp *= w;
+		wvp *= v;
+		wvp *= p;
 
-		wvp *= camera.getProjectionMatrix();
-		wvp *= camera.getViewMatrix();
-		wvp *= transform->getWorldMatrix();
+		/*wvp *= p;
+		wvp *= v;
+		wvp *= w;*/
 
 		for (unsigned int j = 0; j < triangles.size(); j++)
 		{
 			// STEP I: project vertices of the triangle using perspective projection
 			Triangle* triangle = triangles[j];
 
+			//TODO: Delete
 			Vector3f vx = orthogonalProject(triangle->v0.position);
 			Vector3f vy = orthogonalProject(triangle->v1.position);
 			Vector3f vz = orthogonalProject(triangle->v2.position);
+			//
 			
-			Vector4f v0 = wvp * vx;
-			Vector4f v1 = wvp * vy;
-			Vector4f v2 = wvp * vz;
+			Vector4f v0 = wvp * Vector4f(orthogonalProject(triangle->v0.position), 1);
+			Vector4f v1 = wvp * Vector4f(orthogonalProject(triangle->v1.position), 1);
+			Vector4f v2 = wvp * Vector4f(orthogonalProject(triangle->v2.position), 1);
 
 			v0 /= v0.w;
 			v1 /= v1.w;

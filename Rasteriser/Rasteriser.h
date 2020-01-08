@@ -11,7 +11,7 @@ public:
 	Rasteriser(Scene& scene, std::shared_ptr<Image>& image);
 	~Rasteriser();
 
-	void print(const Camera& camera);
+	void print(const Camera& camera) const;
 
 protected:
 	Vector3f orthogonalProject(const Vector3f& vertex) const;

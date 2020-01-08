@@ -22,9 +22,9 @@ void Mesh::setFaces(const std::vector<Triangle*>& faces)
 	this->faces = faces;
 }
 
-Transform Mesh::getTransform() const
+Transform* Mesh::getTransform() 
 {
-	return transform;
+	return &transform;
 }
 
 bool Mesh::loadObjFile(std::string filename, const Vector3f& color)

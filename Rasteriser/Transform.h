@@ -13,7 +13,7 @@ public:
 
 	void translate(const Vector3f& translation);
 	void scale(const Vector3f& v);
-	void rotate(const float& angle, Vector3f& rotationVector);
+	void rotate(const float& angle, const Vector3f& rotationVector);
 
 private:
 	Matrix4x4f worldMatrix;

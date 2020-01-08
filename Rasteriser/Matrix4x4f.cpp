@@ -58,12 +58,6 @@ Matrix4x4f& Matrix4x4f::operator*=(Matrix4x4f& other)
 	return *this;
 }
 
-Matrix4x4f& Matrix4x4f::operator*=(Matrix4x4f other)
-{
-	*this = *this * other;
-	return *this;
-}
-
 Matrix4x4f& Matrix4x4f::operator*=(float scalar)
 {
 	for (int i = 0; i < size; ++i)
@@ -85,9 +79,9 @@ Matrix4x4f& Matrix4x4f::Transpose()
 Matrix4x4f Matrix4x4f::Identity()
 {
 	Matrix4x4f m(1, 0, 0, 0,
-		0, 1, 0, 0,
-		0, 0, 1, 0,
-		0, 0, 0, 1);
+				0, 1, 0, 0,
+				0, 0, 1, 0,
+				0, 0, 0, 1);
 	
 	return m;
 }
