@@ -29,10 +29,15 @@ private:
 
 inline Vector4f operator*(Matrix4x4f& left, const Vector4f& right)
 {
-	float x = left[0] * right.x + left[1] * right.x + left[2] * right.x + left[3] * right.x;
+	/*float x = left[0] * right.x + left[1] * right.x + left[2] * right.x + left[3] * right.x;
 	float y = left[4] * right.y + left[5] * right.y + left[6] * right.y + left[7] * right.y;
 	float z = left[8] * right.z + left[9] * right.z + left[10] * right.z + left[11] * right.z;
-	float w = left[12] * right.w + left[13] * right.w + left[14] * right.w + left[15] * right.w;
+	float w = left[12] * right.w + left[13] * right.w + left[14] * right.w + left[15] * right.w;*/
+
+	float x = left[0] * right.x + left[1] * right.y + left[2] * right.z + left[3] * right.w;
+	float y = left[4] * right.x + left[5] * right.y + left[6] * right.z + left[7] * right.w;
+	float z = left[8] * right.x + left[9] * right.y + left[10] * right.z + left[11] * right.w;
+	float w = left[12] * right.x + left[13] * right.y + left[14] * right.z + left[15] * right.w;
 	
 	return Vector4f(x, y, z, w);
 }

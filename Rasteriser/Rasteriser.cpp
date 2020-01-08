@@ -29,6 +29,16 @@ Rasteriser::~Rasteriser()
 	delete[] depthBuffer;
 }
 
+Vector3f tr(Matrix4x4f& world, Matrix4x4f& view, Matrix4x4f& projection, const Vector3f& vertexPosition)
+{
+	Vector4f vec{ vertexPosition, 1.0f };
+	vec = world * vec;
+	vec = view * vec;
+	vec = projection * vec;
+	vec /= vec.w;
+	return Vector3f{ vec.x, vec.y, vec.z };
+}
+
 void Rasteriser::print(const Camera& camera) const
 {
 	std::vector<Mesh*> models = scene->getPrimitives();
@@ -39,38 +49,24 @@ void Rasteriser::print(const Camera& camera) const
 		const std::vector<Triangle*> triangles = primitive->getFaces();
 		Transform* transform = primitive->getTransform();
 
-		Matrix4x4f wvp = Matrix4x4f::Identity();
+		//Matrix4x4f wvp = Matrix4x4f::Identity();
 		Matrix4x4f w = transform->getWorldMatrix();
 		Matrix4x4f v = camera.getViewMatrix();
 		Matrix4x4f p = camera.getProjectionMatrix();
-		wvp *= w;
-		wvp *= v;
-		wvp *= p;
-
-		/*wvp *= p;
-		wvp *= v;
-		wvp *= w;*/
 
 		for (unsigned int j = 0; j < triangles.size(); j++)
 		{
 			// STEP I: project vertices of the triangle using perspective projection
 			Triangle* triangle = triangles[j];
 
-			//TODO: Delete
-			Vector3f vx = orthogonalProject(triangle->v0.position);
-			Vector3f vy = orthogonalProject(triangle->v1.position);
-			Vector3f vz = orthogonalProject(triangle->v2.position);
-			//
+			Vector3f tmp0 = tr(w, v, p, triangle->v0.position);
+			Vector3f tmp1 = tr(w, v, p, triangle->v1.position);
+			Vector3f tmp2 = tr(w, v, p, triangle->v2.position);
 			
-			Vector4f v0 = wvp * Vector4f(orthogonalProject(triangle->v0.position), 1);
-			Vector4f v1 = wvp * Vector4f(orthogonalProject(triangle->v1.position), 1);
-			Vector4f v2 = wvp * Vector4f(orthogonalProject(triangle->v2.position), 1);
+			Vector3f v0 = orthogonalProject(tmp0);
+			Vector3f v1 = orthogonalProject(tmp1);
+			Vector3f v2 = orthogonalProject(tmp2);
 
-			v0 /= v0.w;
-			v1 /= v1.w;
-			v2 /= v2.w;
-
-			std::cout << "vx: " << vx << "vy: " << vy << "vz: " << vz << std::endl;
 			std::cout << "v0: " << v0 << "v1: " << v1 << "v2: " << v2 << std::endl;
 
 			float minx = std::min({ v0.x, v1.x, v2.x });

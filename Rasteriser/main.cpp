@@ -39,10 +39,12 @@ int main()
 	tris.push_back(&t2);
 	Mesh m1(tris);
 
+	//Mesh m2("models/cube.obj", { 1, 0, 0 });
+	
 	//m1 Transformations
-	m1.getTransform()->scale({ 1, 1, 1 });
+	m1.getTransform()->scale({ 2, 1, 1 });
 	m1.getTransform()->rotate(0, { 0, 0, 1 });
-	m1.getTransform()->translate({ 0, 0, 0 });	
+	m1.getTransform()->translate({ 0, 1, 0 });	
 	
 	scene.addPrimitive(m1);
 	
@@ -54,7 +56,7 @@ int main()
 	Camera camera;
 	//Camera Transformations
 	camera.setLookAt({ 0, 0, 15.0f }, { 0 }, Vector3f(0.0f, 1.0f, 0.0f));
-	camera.setPerspective(120, Settings::ImageWidth / Settings::ImageHeight, 0.01f, 50);
+	camera.setPerspective(120, Settings::ImageWidth / Settings::ImageHeight, 0.01f, 10000);
 	
 	std::cout << "Rendering scene with: " << scene.getPrimitives().size() << (scene.getPrimitives().size() == 1 ? " object\n" : " objects\n");
 	auto startTime = std::chrono::system_clock::now();

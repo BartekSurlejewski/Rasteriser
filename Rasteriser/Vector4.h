@@ -83,7 +83,7 @@ template <class T>
 Vector4<T> Vector4<T>::DivideW() const
 {
 	float invW = 1.0f / w;
-	return Vector4<T>(x * invW, y * invW, z * invW, 1.0f);
+	return Vector4<T>(x * invW, y * invW, z * invW, w);
 }
 
 template <class T>
