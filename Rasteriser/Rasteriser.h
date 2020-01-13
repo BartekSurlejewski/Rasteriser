@@ -14,7 +14,7 @@ public:
 	void print(const Camera& camera) const;
 
 protected:
-	Vector3f orthogonalProject(const Vector3f& vertex) const;
+	Vector3f computeScreenCoordinates(const Vector3f& vertex) const;
 	Vector3f getBarycentricCoords(const Vector3f& vertex0, const Vector3f& vertex1, const Vector3f& vertex2,
 	                              const unsigned int& pixelX, const unsigned int& pixelY) const;
 

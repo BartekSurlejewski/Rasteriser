@@ -3,6 +3,7 @@
 #include <algorithm>
 #include <iostream>
 #include "Vector2.h"
+#include "Settings.h"
 
 Rasteriser::Rasteriser(Scene& scene, std::shared_ptr<Image>& image) : scene(&scene),
 image(image), imageWidth(image->getWidth()),
@@ -41,31 +42,34 @@ Vector3f tr(Matrix4x4f& world, Matrix4x4f& view, Matrix4x4f& projection, const V
 
 void Rasteriser::print(const Camera& camera) const
 {
-	std::vector<Mesh*> models = scene->getPrimitives();
+	const std::vector<Mesh*>& models = scene->getPrimitives();
 
 	for (unsigned int i = 0; i < models.size(); i++)
 	{
 		Mesh* primitive = models[i];
-		const std::vector<Triangle*> triangles = primitive->getFaces();
-		Transform* transform = primitive->getTransform();
+		const std::vector<Triangle>& triangles = primitive->getFaces();
+		const Transform& transform = primitive->getTransform();
 
-		//Matrix4x4f wvp = Matrix4x4f::Identity();
-		Matrix4x4f w = transform->getWorldMatrix();
+		Matrix4x4f w = transform.getWorldMatrix();
 		Matrix4x4f v = camera.getViewMatrix();
 		Matrix4x4f p = camera.getProjectionMatrix();
 
 		for (unsigned int j = 0; j < triangles.size(); j++)
 		{
 			// STEP I: project vertices of the triangle using perspective projection
-			Triangle* triangle = triangles[j];
+			Triangle triangle = triangles[j];
 
-			Vector3f tmp0 = tr(w, v, p, triangle->v0.position);
-			Vector3f tmp1 = tr(w, v, p, triangle->v1.position);
-			Vector3f tmp2 = tr(w, v, p, triangle->v2.position);
-			
-			Vector3f v0 = orthogonalProject(tmp0);
-			Vector3f v1 = orthogonalProject(tmp1);
-			Vector3f v2 = orthogonalProject(tmp2);
+			const Vector3f& tmp0 = tr(w, v, p, triangle.v0.position);
+			const Vector3f& tmp1 = tr(w, v, p, triangle.v1.position);
+			const Vector3f& tmp2 = tr(w, v, p, triangle.v2.position);
+
+			const Vector3f& v0 = computeScreenCoordinates(tmp0);
+			const Vector3f& v1 = computeScreenCoordinates(tmp1);
+			const Vector3f& v2 = computeScreenCoordinates(tmp2);
+
+			const Vector3f edge0 = v2 - v1;
+			const Vector3f edge1 = v0 - v2;
+			const Vector3f edge2 = v1 - v0;
 
 			std::cout << "v0: " << v0 << "v1: " << v1 << "v2: " << v2 << std::endl;
 
@@ -79,20 +83,29 @@ void Rasteriser::print(const Camera& camera) const
 			miny = std::max({ miny, 0.0f });
 			maxy = std::min({ maxy, imageHeight - 1.0f });
 
+			const float& area = edgeFunction(
+				v0, v1, { static_cast<unsigned int>(v2.x), static_cast<unsigned int>(v2.y) });
+			
 			// STEP II: is this pixel contained in the projected image of the triangle?
-			for (unsigned int x = (unsigned int)minx; x < maxx; x++)
+			for (unsigned int x = (unsigned int)minx; x <= maxx; x++)
 			{
-				for (unsigned int y = (unsigned int)miny; y < maxy; y++)
+				for (unsigned int y = (unsigned int)miny; y <= maxy; y++)
 				{
-					float area = edgeFunction(
-						v0, v1, { static_cast<unsigned int>(v2.x), static_cast<unsigned int>(v2.y) });
+					Vector2<unsigned int> pixelSample(x, y);
+					
 					// area of the triangle multiplied by 2 
-					float lambda0 = edgeFunction(v1, v2, { x, y }); // signed area of the triangle v1v2p multiplied by 2 
-					float lambda1 = edgeFunction(v2, v0, { x, y }); // signed area of the triangle v2v0p multiplied by 2 
-					float lambda2 = edgeFunction(v0, v1, { x, y }); // signed area of the triangle v0v1p multiplied by 2 
+					float lambda0 = edgeFunction(v1, v2, pixelSample); // signed area of the triangle v1v2p multiplied by 2 
+					float lambda1 = edgeFunction(v2, v0, pixelSample); // signed area of the triangle v2v0p multiplied by 2 
+					float lambda2 = edgeFunction(v0, v1, pixelSample); // signed area of the triangle v0v1p multiplied by 2 
 
+					bool overlaps = true;
+
+					overlaps &= (lambda0 == 0 ? ((edge0.y == 0 && edge0.x > 0) || edge0.y > 0) : (lambda0 > 0));
+					overlaps &= (lambda1 == 0 ? ((edge1.y == 0 && edge1.x > 0) || edge1.y > 0) : (lambda1 > 0));
+					overlaps &= (lambda2 == 0 ? ((edge2.y == 0 && edge2.x > 0) || edge2.y > 0) : (lambda2 > 0));
+					
 					// if point p is inside triangles defined by vertices v0, v1, v2
-					if (lambda0 >= 0 && lambda1 >= 0 && lambda2 >= 0)
+					if (overlaps)
 					{
 						// barycentric coordinates are the areas of the sub-triangles divided by the area of the main triangle
 						lambda0 /= area;
@@ -103,10 +116,11 @@ void Rasteriser::print(const Camera& camera) const
 
 						if (depth < depthBuffer[x][y])
 						{
-							Vector3f color = lambda0 * triangle->v0.color + lambda1
-								* triangle->v1.color + lambda2 * triangle->v2.color;
+							Vector3f color = lambda0 * triangle.v0.color + lambda1
+								* triangle.v1.color + lambda2 * triangle.v2.color;
 
 							image->writePixel(x, y, color);
+							
 							depthBuffer[x][y] = depth;
 						}
 					}
@@ -116,7 +130,7 @@ void Rasteriser::print(const Camera& camera) const
 	}
 }
 
-inline Vector3f Rasteriser::orthogonalProject(const Vector3f& vertex) const
+inline Vector3f Rasteriser::computeScreenCoordinates(const Vector3f& vertex) const
 {
 	return { (vertex.x + 1) * imageWidth * 0.5f, imageHeight - (vertex.y + 1) * imageHeight * 0.5f, vertex.z };
 }

@@ -15,38 +15,21 @@ int main()
 	const std::string filename = currentDateTime() + ".bmp";
 
 	Scene scene;
-	Vector3f v1 = Vector3f(-0.75, -0.75, 0);
-	Vector3f v2 = Vector3f(-0.75, 0.75, 0);
-	Vector3f v3 = Vector3f(0.75, -0.75, 0);
 
-	Vector3f v4 = Vector3f(-0.8, 0.6, -1);
-	Vector3f v5 = Vector3f(-0.8, -0.6, -1);
-	Vector3f v6 = Vector3f(0.75, 0.1, 10);
-
-	Vertex vert1(v1, Vector3f(1, 0, 0));
-	Vertex vert2(v2, Vector3f(1, 0, 0));
-	Vertex vert3(v3, Vector3f(1, 0, 0));
-
-	Vertex vert4(v4, Vector3f(0, 1, 0));
-	Vertex vert5(v5, Vector3f(1, 1, 1));
-	Vertex vert6(v6, Vector3f(0, 0, 1));
-
-	Triangle t1(vert1, vert3, vert2);
-	Triangle t2(vert4, vert5, vert6);
-
-	std::vector<Triangle*> tris;
-	tris.push_back(&t1);
-	tris.push_back(&t2);
-	Mesh m1(tris);
-
-	//Mesh m2("models/cube.obj", { 1, 0, 0 });
+	Mesh cube("models/octahedron.obj", { 0, 1, 0 });
+	Transform& cubeTransform = cube.getTransform();
+	//cubeTransform.scale({ 2, 1, 1 });
+	cubeTransform.rotate(45, { 0, 1, 0 });
+	//cubeTransform.translate({ -2, 0, 0 });
 	
 	//m1 Transformations
-	m1.getTransform()->scale({ 2, 1, 1 });
-	m1.getTransform()->rotate(0, { 0, 0, 1 });
-	m1.getTransform()->translate({ 0, 1, 0 });	
+	//Transform& m1Transform = m1.getTransform();
+	//
+	//m1Transform.scale({ 2, 1, 1 });
+	//m1Transform.rotate(0, { 0, 0, 1 });
+	//m1Transform.translate({ 0, 1, 0 });	
 	
-	scene.addPrimitive(m1);
+	scene.addPrimitive(cube);
 	
 	std::shared_ptr<Image> image(new BitmapImage(Settings::ImageWidth, Settings::ImageHeight));
 	const Vector3f bgColor(0.3, 0.6, 1);

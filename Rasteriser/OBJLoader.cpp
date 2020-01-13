@@ -8,7 +8,7 @@
 #include "StringUtils.h"
 
 void OBJLoader::loadMesh(const std::string &filePath, Mesh& targetMesh, bool loadNormals,
-	const Vector3f &positionOffset, const Vector3f& color) {
+	const Vector3f& color, const Vector3f &positionOffset) {
 	init();
 	std::cout << "Parsing file: " << filePath << std::endl;
 
@@ -44,17 +44,17 @@ void OBJLoader::loadMesh(const std::string &filePath, Mesh& targetMesh, bool loa
 	targetMesh.setFaces(this->faces);
 }
 
-void OBJLoader::parseVertex(std::vector<std::string> vertexLine, Vector3f positionOffset) {
+void OBJLoader::parseVertex(const std::vector<std::string>& vertexLine, const Vector3f& positionOffset) {
 	Vector3f vertex = Vector3f(std::stod(vertexLine[0]) + positionOffset.x, std::stod(vertexLine[1]) + positionOffset.y, std::stod(vertexLine[2]) + positionOffset.z);
 	this->vertices.push_back(vertex);
 }
 
-void OBJLoader::parseNormal(std::vector<std::string> normalLine) {
+void OBJLoader::parseNormal(const std::vector<std::string>& normalLine) {
 	Vector3f normal = Vector3f(std::stod(normalLine[0]), std::stod(normalLine[1]), std::stod(normalLine[2])).normalized();
 	this->normals.push_back(normal);
 }
 
-void OBJLoader::parseFace(std::vector<std::string> faceLine, bool loadNormals, Vector3f color) {
+void OBJLoader::parseFace(const std::vector<std::string>& faceLine, bool loadNormals, const Vector3f& color) {
 	std::vector<int> faceVertexIndices;
 	std::vector<int> faceTextureIndices;
 	std::vector<int> faceNormalIndices;
@@ -62,7 +62,7 @@ void OBJLoader::parseFace(std::vector<std::string> faceLine, bool loadNormals, V
 	for (const auto &vertexInfo : faceLine) {
 		std::vector<std::string> splitVertexInfo = StringUtils::split(vertexInfo, '/', false);
 
-		faceVertexIndices.push_back(std::stoi(splitVertexInfo.front()));
+		faceVertexIndices.push_back(std::stoi(splitVertexInfo[0]));
 
 		if (splitVertexInfo.size() == 2) {
 			if (!splitVertexInfo[1].empty()) {
@@ -92,7 +92,7 @@ void OBJLoader::parseFace(std::vector<std::string> faceLine, bool loadNormals, V
 		face = Triangle(vertices[(faceVertexIndices[0] - 1)], vertices[(faceVertexIndices[1] - 1)], vertices[(faceVertexIndices[2] - 1)], color);
 	}
 
-	this->faces.push_back(&face);
+	this->faces.push_back(face);
 }
 
 void OBJLoader::init() {

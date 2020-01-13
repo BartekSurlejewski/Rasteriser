@@ -4,64 +4,25 @@
 #include <strstream>
 #include "OBJLoader.h"
 
-Mesh::Mesh(std::string filename, const Vector3f& color)
+Mesh::Mesh(const std::string& filename, const Vector3f& color)
 {
 	OBJLoader* loader = new OBJLoader();
-	loader->loadMesh(filename, *this, false);
+	loader->loadMesh(filename, *this, false, color);
 	delete loader;
 }
-Mesh::Mesh(std::vector<Triangle*> triangles) : faces(std::move(triangles)) {}
+Mesh::Mesh(const std::vector<Triangle>& faces) : faces(faces) {}
 
-std::vector<Triangle*> Mesh::getFaces() const
+std::vector<Triangle>& Mesh::getFaces()
 {
 	return faces;
 }
 
-void Mesh::setFaces(const std::vector<Triangle*>& faces)
+void Mesh::setFaces(const std::vector<Triangle>& faces)
 {
 	this->faces = faces;
 }
 
-Transform* Mesh::getTransform() 
+Transform& Mesh::getTransform()
 {
-	return &transform;
-}
-
-bool Mesh::loadObjFile(std::string filename, const Vector3f& color)
-{
-	std::ifstream f(filename);
-	if (!f.is_open())
-		return false;
-
-	//Local cache of verts
-	std::vector<Vector3f> verts;
-
-	while (!f.eof())
-	{
-		char line[128];
-		f.getline(line, 128);
-
-		std::strstream stream;
-		stream << line;
-
-		char junk;
-
-		if (line[0] == 'v')
-		{
-			Vector3f v;
-			stream >> junk >> v.x >> v.y >> v.z;
-			verts.push_back(v);
-		}
-		else if (line[0] == 'f')
-		{
-			int f[3];
-			stream >> junk >> f[0] >> f[1] >> f[2];
-
-			Triangle t(verts[f[0] - 1], verts[f[1] - 1], verts[f[2] - 1], color);
-
-			faces.push_back(&t);
-		}
-	}
-
-	return true;
+	return transform;
 }

@@ -5,7 +5,7 @@ Transform::Transform()
 {
 	worldMatrix = Matrix4x4f::Identity();
 }
-Matrix4x4f Transform::getWorldMatrix() { return worldMatrix; }
+Matrix4x4f Transform::getWorldMatrix() const { return worldMatrix; }
 void Transform::setWorldMatrix(Matrix4x4f& worldMatrix) { this->worldMatrix = worldMatrix; }
 
 void Transform::translate(const Vector3f& translation)

@@ -7,17 +7,15 @@ class Mesh
 {
 public:
 	Mesh();
-	Mesh(std::string filename, const Vector3f& color);
-	Mesh(std::vector<Triangle*> triangles);
+	Mesh(const std::string& filename, const Vector3f& color);
+	Mesh(const std::vector<Triangle>& faces);
 
-	std::vector<Triangle*> getFaces() const;
-	void setFaces(const std::vector<Triangle*>& faces);
-	Transform* getTransform();
-
-	bool loadObjFile(std::string filename, const Vector3f& color);
+	std::vector<Triangle>& getFaces();
+	void setFaces(const std::vector<Triangle>& faces);
+	Transform& getTransform();
 	
 protected:
 	Transform transform;
-	std::vector<Triangle*> faces;
+	std::vector<Triangle> faces;
 };
 

@@ -160,6 +160,12 @@ Vector3<T> operator+(const Vector3<T>& left, const Vector3<T>& right)
 }
 
 template <class T>
+Vector3<T> operator-(const Vector3<T>& left, const Vector3<T>& right)
+{
+	return { left.x - right.x, left.y - right.y, left.z - right.z };
+}
+
+template <class T>
 Vector3<T> operator*(const T& left, const Vector3<T>& right)
 {
 	return { left * right.x, left * right.y, left * right.z };

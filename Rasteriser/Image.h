@@ -17,6 +17,7 @@ public:
 	virtual void writePixel(unsigned int x, unsigned int y, unsigned char red, unsigned char green, unsigned char blue) = 0;
 	virtual void writeAll(const Vector3f& color) = 0;
 	virtual void writeAll(unsigned char red, unsigned char green, unsigned char blue) = 0;
+	virtual void writeAll(const Vector3f* color) = 0;
 };
 
 
