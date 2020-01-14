@@ -151,6 +151,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Light.h" />
     <ClInclude Include="Matrix4x4f.h" />
     <ClInclude Include="MeshLoader.h" />
     <ClInclude Include="OBJLoader.h" />
@@ -174,6 +175,7 @@
   <ItemGroup>
     <ClCompile Include="BitmapImage.cpp" />
     <ClCompile Include="Image.cpp" />
+    <ClCompile Include="Light.cpp" />
     <ClCompile Include="Matrix4x4f.cpp" />
     <ClCompile Include="OBJLoader.cpp" />
     <ClCompile Include="pch.cpp">

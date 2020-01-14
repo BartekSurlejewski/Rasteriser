@@ -95,3 +95,6 @@ ipch/
 *.vspx
 *.sap
 
+
+# Exceptions
+!Rasteriser/models/octahedron.obj
