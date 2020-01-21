@@ -1,6 +1,5 @@
 #pragma once
 #include <ostream>
-//#include "Matrix4x4f.h"
 
 template <class T>
 struct Vector3
@@ -27,6 +26,8 @@ public:
 	Vector3<T>& operator-=(const Vector3& other);
 	Vector3<T>& operator*=(const Vector3& other);
 	Vector3<T>& operator/=(const Vector3& other);
+
+	const static Vector3<T> Zero();
 };
 
 template <class T>
@@ -139,6 +140,12 @@ Vector3<T>& Vector3<T>::operator/=(const Vector3<T>& other)
 }
 
 template <class T>
+const Vector3<T> Vector3<T>::Zero()
+{
+	return Vector3<T>(0);
+}
+
+template <class T>
 std::ostream& operator<<(std::ostream& stream, const Vector3<T>& vector)
 {
 	return stream << "[" << vector.x << ", " << vector.y << ", " << vector.z << "]";
@@ -194,9 +201,3 @@ Vector3<T> operator/(const Vector3<T>& left, const float& right)
 {
 	return { left.x / right, left.y / right, left.z / right };
 }
-
-//template <class T>
-//Vector4<T> operator*(const Vector3<T>& left, const Matrix4x4f& right)
-//{
-//	
-//}

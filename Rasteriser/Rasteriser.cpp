@@ -4,6 +4,7 @@
 #include <iostream>
 #include "Vector2.h"
 #include "Settings.h"
+#include "PointLight.h"
 
 Rasteriser::Rasteriser(Scene& scene, std::shared_ptr<Image>& image) : scene(&scene),
 image(image), imageWidth(image->getWidth()),
@@ -42,6 +43,7 @@ Vector3f tr(Matrix4x4f& world, Matrix4x4f& view, Matrix4x4f& projection, const V
 
 void Rasteriser::print(const Camera& camera) const
 {
+	PointLight pointLight({ 0, 0, 15.0f }, {1, 0, 0}, 100);
 	const std::vector<Mesh*>& models = scene->getPrimitives();
 
 	for (unsigned int i = 0; i < models.size(); i++)
@@ -116,8 +118,28 @@ void Rasteriser::print(const Camera& camera) const
 
 						if (depth < depthBuffer[x][y])
 						{
-							Vector3f color = lambda0 * triangle.v0.color + lambda1
-								* triangle.v1.color + lambda2 * triangle.v2.color;
+							Vertex& vert0 = triangle.v0;
+							/*vert0.position = w * vert0.position;
+							vert0.normal = w * vert0.normal;*/
+							vert0.color = pointLight.calculate(vert0);
+							
+							Vertex& vert1 = triangle.v0;
+						/*	vert1.position = w * vert1.position;
+							vert1.normal = w * vert1.normal;*/
+							vert1.color = pointLight.calculate(vert1);
+
+							Vertex& vert2 = triangle.v2;
+							/*vert2.position = w * vert2.position;
+							vert2.normal = w * vert2.normal;*/
+							vert2.color = pointLight.calculate(vert2);
+							
+							triangle.v1.color = pointLight.calculate(triangle.v1);
+							
+							/*Vector3f color = lambda0 * triangle.v0.color + lambda1
+								* triangle.v1.color + lambda2 * triangle.v2.color;*/
+
+							Vector3f color = lambda0 * vert0.color + lambda1
+								* vert1.color + lambda2 * vert2.color;
 
 							image->writePixel(x, y, color);
 							

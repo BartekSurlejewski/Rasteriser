@@ -1,19 +1,18 @@
 #pragma once
 #include "Vector3.h"
+#include "Vertex.h"
 
 class Light
 {
 public:
-	Light(const Vector3f& position, const Vector3f& ambient, const Vector3f& diffuse, const Vector3f& specular,
-		float shininess);
+	Light(const Vector3f& position, const Vector3f& ambient, float shininess);
 
-	virtual Vector3f calculate() const = 0;
+	virtual Vector3f calculate(const Vertex& vertex) const = 0;
 
-private:
+protected:
 	Vector3f position;
 	Vector3f ambient;
-	Vector3f diffuse;
-	Vector3f specular;
+	/*Vector3f diffuse;
+	Vector3f specular;*/
 	float shininess;
 };
-

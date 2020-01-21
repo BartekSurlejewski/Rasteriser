@@ -16,20 +16,22 @@ int main()
 
 	Scene scene;
 
-	Mesh cube("models/octahedron.obj", { 0, 1, 0 });
-	Transform& cubeTransform = cube.getTransform();
-	//cubeTransform.scale({ 2, 1, 1 });
-	cubeTransform.rotate(45, { 0, 1, 0 });
+	//Mesh cube("models/octahedron.obj", { 0, 1, 0 });
+	//Transform& cubeTransform = cube.getTransform();
+	////cubeTransform.scale({ 2, 1, 1 });
+	//cubeTransform.rotate(45, { 0, 1, 0 });
 	//cubeTransform.translate({ -2, 0, 0 });
+
+	Mesh monkey("models/monkey.obj", { 0, 0, 0 });
 	
 	//m1 Transformations
-	//Transform& m1Transform = m1.getTransform();
-	//
-	//m1Transform.scale({ 2, 1, 1 });
-	//m1Transform.rotate(0, { 0, 0, 1 });
-	//m1Transform.translate({ 0, 1, 0 });	
+	Transform& monkeyTransform = monkey.getTransform();
 	
-	scene.addPrimitive(cube);
+	/*monkeyTransform.scale({ 2, 1, 1 });
+	monkeyTransform.rotate(30, { 0, 1, 0 });*/
+	//monkeyTransform.translate({ 0, 1, 0 });	
+	
+	scene.addPrimitive(monkey);
 	
 	std::shared_ptr<Image> image(new BitmapImage(Settings::ImageWidth, Settings::ImageHeight));
 	const Vector3f bgColor(0.3, 0.6, 1);

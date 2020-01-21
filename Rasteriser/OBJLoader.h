@@ -4,7 +4,7 @@
 class OBJLoader : public MeshLoader {
 public:
 	void loadMesh(const std::string& filePath, Mesh& targetMesh, bool loadNormals,
-		const Vector3f& color = Vector3f(1, 0, 0), const Vector3f &positionOffset = Vector3f()) override;
+		const Vector3f& color = Vector3f(1, 0, 0), const Vector3f &positionOffset = Vector3f::Zero()) override;
 
 private:
 	std::vector<Vector3f> vertices;

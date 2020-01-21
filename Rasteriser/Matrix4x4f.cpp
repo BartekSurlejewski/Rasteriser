@@ -76,7 +76,7 @@ Matrix4x4f& Matrix4x4f::Transpose()
 	return *this;
 }
 
-Matrix4x4f Matrix4x4f::Identity()
+const Matrix4x4f Matrix4x4f::Identity()
 {
 	Matrix4x4f m(1, 0, 0, 0,
 				0, 1, 0, 0,

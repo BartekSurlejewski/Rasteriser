@@ -6,6 +6,7 @@ Vertex::Vertex(const Vertex& other) : Vertex(other.position, other.color, other.
 Vertex& Vertex::operator=(const Vertex& other)
 {
 	position = other.position;
+	normal = other.normal;
 	color = other.color;
 
 	return *this;

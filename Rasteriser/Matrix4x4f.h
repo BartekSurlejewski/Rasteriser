@@ -17,7 +17,7 @@ public:
 	Matrix4x4f& operator*=(Matrix4x4f& other);
 	Matrix4x4f& operator*=(float scalar);
 	Matrix4x4f& Transpose();
-	static Matrix4x4f Identity();
+	const static Matrix4x4f Identity();
 	
 	static const int N = 4;
 private:
@@ -35,6 +35,13 @@ inline Vector4f operator*(Matrix4x4f& left, const Vector4f& right)
 	float w = left[12] * right.x + left[13] * right.y + left[14] * right.z + left[15] * right.w;
 	
 	return Vector4f(x, y, z, w);
+}
+
+inline Vector3f operator*(Matrix4x4f& left, const Vector3f& right)
+{
+	Vector4f tmp = left *  Vector4f(right, 1);
+
+	return Vector3f(tmp.x, tmp.y, tmp.z);
 }
 
 inline Matrix4x4f operator*(Matrix4x4f& left, Matrix4x4f& right)

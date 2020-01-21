@@ -80,16 +80,27 @@ void OBJLoader::parseFace(const std::vector<std::string>& faceLine, bool loadNor
 	}
 
 	Triangle face;
-	if (faceNormalIndices.empty() || !loadNormals) {
-		face = Triangle(vertices[(faceVertexIndices[0] - 1)], vertices[(faceVertexIndices[1] - 1)], vertices[(faceVertexIndices[2] - 1)], color);
+	if (faceNormalIndices.empty() || !loadNormals)
+	{
+		Vertex v0(vertices[(faceVertexIndices[0] - 1)], color);
+		Vertex v1(vertices[(faceVertexIndices[1] - 1)], color);
+		Vertex v2(vertices[(faceVertexIndices[2] - 1)], color);
+
+		face = Triangle(v0, v1, v2, false);
 	}
-	else {
+	else 
+	{
 		Vector3f faceNormal;
 		for (const auto &vertexNormalIndex : faceNormalIndices) {
 			faceNormal += normals[vertexNormalIndex - 1];
 		}
 		faceNormal /= faceNormalIndices.size();
-		face = Triangle(vertices[(faceVertexIndices[0] - 1)], vertices[(faceVertexIndices[1] - 1)], vertices[(faceVertexIndices[2] - 1)], color);
+
+		Vertex v0(vertices[(faceVertexIndices[0] - 1)], color, faceNormal);
+		Vertex v1(vertices[(faceVertexIndices[1] - 1)], color, faceNormal);
+		Vertex v2(vertices[(faceVertexIndices[2] - 1)], color, faceNormal);
+		
+		face = Triangle(v0, v1, v2, true);
 	}
 
 	this->faces.push_back(face);

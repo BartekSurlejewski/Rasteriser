@@ -7,7 +7,7 @@
 Mesh::Mesh(const std::string& filename, const Vector3f& color)
 {
 	OBJLoader* loader = new OBJLoader();
-	loader->loadMesh(filename, *this, false, color);
+	loader->loadMesh(filename, *this, true, color);
 	delete loader;
 }
 Mesh::Mesh(const std::vector<Triangle>& faces) : faces(faces) {}
