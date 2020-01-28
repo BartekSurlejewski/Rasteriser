@@ -25,7 +25,7 @@ protected:
 
 private:
 	float edgeFunction(const Vector3f& a, const Vector3f& b, const Vector2<unsigned int>& c) const;
-	float edgeFunction(const Vector4f& a, const Vector4f& b, const Vector2<unsigned int>& c) const;
+	float edgeFunction(const Vector3f& a, const Vector3f& b, const Vector3f& c) const;
 
 	float dx12;
 	float dx23;

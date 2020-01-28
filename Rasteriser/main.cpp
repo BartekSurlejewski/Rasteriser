@@ -22,14 +22,14 @@ int main()
 	//cubeTransform.rotate(45, { 0, 1, 0 });
 	//cubeTransform.translate({ -2, 0, 0 });
 
-	Mesh monkey("models/monkey.obj", { 0, 0, 0 });
+	Mesh monkey("models/monkey.obj", { 0, 1, 0 });
 	
 	//m1 Transformations
 	Transform& monkeyTransform = monkey.getTransform();
 	
-	/*monkeyTransform.scale({ 2, 1, 1 });
-	monkeyTransform.rotate(30, { 0, 1, 0 });*/
-	//monkeyTransform.translate({ 0, 1, 0 });	
+	monkeyTransform.scale({ 2, 1, 1 });
+	monkeyTransform.rotate(30, { 0, 1, 0 });
+	monkeyTransform.translate({ 0, 1, 0 });	
 	
 	scene.addPrimitive(monkey);
 	

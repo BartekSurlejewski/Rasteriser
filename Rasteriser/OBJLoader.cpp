@@ -37,9 +37,9 @@ void OBJLoader::loadMesh(const std::string &filePath, Mesh& targetMesh, bool loa
 		}
 	}
 
-	std::cout << " - Number of vertices acquired: " << vertices.size() << std::endl
-		<< " - Number of normals acquired: " << normals.size() << std::endl
-		<< " - Number of faces acquired: " << faces.size() << std::endl;
+	//std::cout << " - Number of vertices acquired: " << vertices.size() << std::endl
+	//	<< " - Number of normals acquired: " << normals.size() << std::endl
+	//	<< " - Number of faces acquired: " << faces.size() << std::endl;
 
 	targetMesh.setFaces(this->faces);
 }
