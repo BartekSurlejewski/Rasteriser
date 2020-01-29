@@ -1,4 +1,6 @@
 #pragma once
+#define LIGHTING 1
+
 class Settings
 {
 public:
