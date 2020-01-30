@@ -98,4 +98,4 @@ ipch/
 
 # Exceptions
 !Rasteriser/models/octahedron.obj
-!Rasteriser/models/sphere.obj
+!Rasteriser/models/*.obj
