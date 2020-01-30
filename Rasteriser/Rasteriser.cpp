@@ -43,7 +43,7 @@ Vector3f tr(Matrix4x4f& world, Matrix4x4f& view, Matrix4x4f& projection, const V
 
 void Rasteriser::print(const Camera& camera) const
 {
-	PointLight pointLight({ 0, 0, 15.0f }, { 1, 1, 1 }, 100);
+	PointLight pointLight({ 0, 0, 15.0f }, { 1, 1, 1 }, 0.1);
 	const std::vector<Mesh*>& models = scene->getPrimitives();
 
 	for (unsigned int i = 0; i < models.size(); i++)
@@ -122,7 +122,7 @@ void Rasteriser::print(const Camera& camera) const
 							Vertex& vert0 = triangle.v0;
 							vert0.normal = w * vert0.normal;
 
-							Vertex& vert1 = triangle.v0;
+							Vertex& vert1 = triangle.v1;
 							vert1.normal = w * vert1.normal;
 
 							Vertex& vert2 = triangle.v2;
@@ -132,6 +132,10 @@ void Rasteriser::print(const Camera& camera) const
 							vert0.color = pointLight.calculate(vert0);
 							vert1.color = pointLight.calculate(vert1);
 							vert2.color = pointLight.calculate(vert2);
+#else
+							vert0.color = {1, 0, 0};
+							vert1.color = { 0, 1, 0 };
+							vert2.color = { 0, 0, 1 };
 #endif
 
 							Vector3f color = lambda0 * vert0.color + lambda1

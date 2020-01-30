@@ -25,12 +25,19 @@ int main()
 	//monkey
 	Mesh monkey("models/monkey.obj", { 0, 1, 0 });
 	Transform& monkeyTransform = monkey.getTransform();
-	/*monkeyTransform.scale({ 2, 1, 1 });
-	monkeyTransform.rotate(30, { 0, 1, 0 });
-	monkeyTransform.translate({ 0, 1, 0 });	*/
+	//monkeyTransform.scale({ 2, 1, 1 });
+	//monkeyTransform.rotate(90, { 0, 1, 0 });
+	//monkeyTransform.translate({ 0, 1, 0 });	
+
+	Mesh sphere("models/sphere.obj", { 0, 1, 0 });
+	Transform& sphereTransform = sphere.getTransform();
+	sphereTransform.scale({ 0.1, 0.1, 0.1 });
+	sphereTransform.rotate(90, {1, 1, 0});
+
 	
 	scene.addPrimitive(monkey);
-	scene.addPrimitive(octahedron);
+	//scene.addPrimitive(sphere);
+	//scene.addPrimitive(octahedron);
 	
 	std::shared_ptr<Image> image(new BitmapImage(Settings::ImageWidth, Settings::ImageHeight));
 	const Vector3f bgColor(0.3, 0.6, 1);
