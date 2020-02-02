@@ -5,16 +5,17 @@
 #include "Vector2.h"
 #include "Settings.h"
 #include "PointLight.h"
+#include <new>
 
 Rasteriser::Rasteriser(Scene& scene, std::shared_ptr<Image>& image) : scene(&scene),
 image(image), imageWidth(image->getWidth()),
 imageHeight(image->getHeight())
 {
-	depthBuffer = new float*[imageWidth];
+	depthBuffer = new (std::nothrow) float*[imageWidth];
 
 	for (unsigned int i = 0; i < imageWidth; i++)
 	{
-		depthBuffer[i] = new float[imageHeight];
+		depthBuffer[i] = new (std::nothrow) float[imageHeight];
 		for (unsigned j = 0; j < imageHeight; j++)
 		{
 			depthBuffer[i][j] = 256;
@@ -41,7 +42,7 @@ Vector3f tr(Matrix4x4f& world, Matrix4x4f& view, Matrix4x4f& projection, const V
 	return Vector3f{ vec.x, vec.y, vec.z };
 }
 
-void Rasteriser::print(Camera& camera) const
+void Rasteriser::print(Camera& camera) const noexcept
 {
 	PointLight pointLight({ 1, -1.5, 1.0f }, { 0.2 }, 10);
 	const std::vector<Mesh*>& models = scene->getPrimitives();
@@ -65,15 +66,11 @@ void Rasteriser::print(Camera& camera) const
 			Vertex& vert1 = triangle.v1;
 			Vertex& vert2 = triangle.v2;
 
-			const Vector3f& tmp0 = tr(w, v, p, vert0.position);
-			const Vector3f& tmp1 = tr(w, v, p, vert1.position);
-			const Vector3f& tmp2 = tr(w, v, p, vert2.position);
-
 #if LIGHTING
 			vert0.normal = w * vert0.normal;
 			vert1.normal = w * vert1.normal;
 			vert2.normal = w * vert2.normal;
-			
+
 			vert0.color = pointLight.calculate(vert0);
 			vert1.color = pointLight.calculate(vert1);
 			vert2.color = pointLight.calculate(vert2);
@@ -82,6 +79,10 @@ void Rasteriser::print(Camera& camera) const
 			vert1.color = { 0, 1, 0 };
 			vert2.color = { 0, 0, 1 };
 #endif
+			
+			const Vector3f& tmp0 = tr(w, v, p, vert0.position);
+			const Vector3f& tmp1 = tr(w, v, p, vert1.position);
+			const Vector3f& tmp2 = tr(w, v, p, vert2.position);
 
 			const Vector3f& v0 = computeScreenCoordinates(tmp0);
 			const Vector3f& v1 = computeScreenCoordinates(tmp1);

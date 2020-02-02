@@ -69,7 +69,7 @@ int main()
 	scene.addPrimitive(octahedron4);
 	scene.addPrimitive(octahedron5);
 
-	std::shared_ptr<Image> image(new BitmapImage(Settings::ImageWidth, Settings::ImageHeight));
+	std::shared_ptr<Image> image(new (std::nothrow) BitmapImage(Settings::ImageWidth, Settings::ImageHeight));
 	const Vector3f bgColor(0.3, 0.6, 1);
 	image->writeAll(bgColor);
 	Rasteriser rasteriser(scene, image);

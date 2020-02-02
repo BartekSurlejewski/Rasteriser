@@ -11,7 +11,7 @@ public:
 	Rasteriser(Scene& scene, std::shared_ptr<Image>& image);
 	~Rasteriser();
 
-	void print(Camera& camera) const;
+	void print(Camera& camera) const noexcept;
 
 protected:
 	Vector3f computeScreenCoordinates(const Vector3f& vertex) const;
