@@ -7,7 +7,7 @@ PointLight::PointLight(const Vector3f& position, const Vector3f& ambient, float 
 
 Vector3f reflect(const Vector3f& I, const Vector3f&);
 
-Vector3f PointLight::calculate(const Vertex& vertex) const
+inline Vector3f PointLight::calculate(const Vertex& vertex) const
 {
 	Vector3f lightVector(Vector3f(position - vertex.position).normalized());
 	Vector3f normalizedVertPos(vertex.position.normalized());
@@ -27,9 +27,7 @@ Vector3f PointLight::calculate(const Vertex& vertex) const
 	return color;
 }
 
-Vector3f reflect(const Vector3f& I, const Vector3f& N)
+inline Vector3f reflect(const Vector3f& I, const Vector3f& N)
 {
-	Vector3f ret = I - (N * N.dotProduct(I) * 2.0f);
-
-	return ret;
+	return I - (N * N.dotProduct(I) * 2.0f);
 }

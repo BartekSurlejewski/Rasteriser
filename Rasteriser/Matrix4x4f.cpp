@@ -56,7 +56,7 @@ Matrix4x4f& Matrix4x4f::operator=(Matrix4x4f other)
 	return *this;
 }
 
-float& Matrix4x4f::operator[](int index)
+inline float& Matrix4x4f::operator[](int index)
 {
 	if (index < size && index >= 0)
 	{
@@ -64,13 +64,13 @@ float& Matrix4x4f::operator[](int index)
 	}
 }
 
-Matrix4x4f& Matrix4x4f::operator*=(Matrix4x4f& other)
+inline Matrix4x4f& Matrix4x4f::operator*=(Matrix4x4f& other)
 {
 	*this = *this * other;
 	return *this;
 }
 
-Matrix4x4f& Matrix4x4f::operator*=(float scalar)
+inline Matrix4x4f& Matrix4x4f::operator*=(float scalar)
 {
 	M[0] *= scalar;
 	M[1] *= scalar;

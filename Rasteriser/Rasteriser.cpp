@@ -25,14 +25,14 @@ imageHeight(image->getHeight())
 
 Rasteriser::~Rasteriser()
 {
-	for (int i = 0; i < imageWidth; ++i)
+	for (unsigned int i = 0; i < imageWidth; ++i)
 	{
 		delete[] depthBuffer[i];
 	}
 	delete[] depthBuffer;
 }
 
-Vector3f tr(Matrix4x4f& world, Matrix4x4f& view, Matrix4x4f& projection, const Vector3f& vertexPosition)
+inline Vector3f tr(Matrix4x4f& world, Matrix4x4f& view, Matrix4x4f& projection, const Vector3f& vertexPosition)
 {
 	Vector4f vec{ vertexPosition, 1.0f };
 	vec = world * vec;
@@ -44,7 +44,7 @@ Vector3f tr(Matrix4x4f& world, Matrix4x4f& view, Matrix4x4f& projection, const V
 
 void Rasteriser::print(Camera& camera) const noexcept
 {
-	PointLight pointLight({ 1, -1.5, 1.0f }, { 0.2 }, 10);
+	PointLight pointLight({ 1.0f, -1.5f, 1.0f }, { 0.2f }, 10.0f);
 	const std::vector<Mesh*>& models(scene->getPrimitives());
 
 	for (unsigned int i = 0; i < models.size(); ++i)
@@ -109,7 +109,7 @@ void Rasteriser::print(Camera& camera) const noexcept
 			{
 				for (unsigned int y(miny); y <= maxy; ++y)
 				{
-					Vector2<unsigned int> pixelSample(x + 0.5, y + 0.5);
+					Vector2<unsigned int> pixelSample(x, y);
 
 					// area of the triangle multiplied by 2 
 					float lambda0(edgeFunction(v1, v2, pixelSample)); // signed area of the triangle v1v2p multiplied by 2 
