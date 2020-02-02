@@ -13,10 +13,10 @@ imageHeight(image->getHeight())
 {
 	depthBuffer = new (std::nothrow) float*[imageWidth];
 
-	for (unsigned int i = 0; i < imageWidth; i++)
+	for (unsigned int i = 0; i < imageWidth; ++i)
 	{
 		depthBuffer[i] = new (std::nothrow) float[imageHeight];
-		for (unsigned j = 0; j < imageHeight; j++)
+		for (unsigned j = 0; j < imageHeight; ++j)
 		{
 			depthBuffer[i][j] = 256;
 		}
@@ -25,7 +25,7 @@ imageHeight(image->getHeight())
 
 Rasteriser::~Rasteriser()
 {
-	for (int i = 0; i < imageWidth; i++)
+	for (int i = 0; i < imageWidth; ++i)
 	{
 		delete[] depthBuffer[i];
 	}
@@ -47,7 +47,7 @@ void Rasteriser::print(Camera& camera) const noexcept
 	PointLight pointLight({ 1, -1.5, 1.0f }, { 0.2 }, 10);
 	const std::vector<Mesh*>& models(scene->getPrimitives());
 
-	for (unsigned int i = 0; i < models.size(); i++)
+	for (unsigned int i = 0; i < models.size(); ++i)
 	{
 		Mesh* primitive = models[i];
 		const std::vector<Triangle>& triangles(primitive->getFaces());
@@ -57,7 +57,7 @@ void Rasteriser::print(Camera& camera) const noexcept
 		Matrix4x4f v(camera.getViewMatrix());
 		Matrix4x4f p(camera.getProjectionMatrix());
 
-		for (unsigned int j = 0; j < triangles.size(); j++)
+		for (unsigned int j = 0; j < triangles.size(); ++j)
 		{
 			// STEP I: project vertices of the triangle using perspective projection
 			Triangle triangle = triangles[j];

@@ -11,7 +11,7 @@ Matrix4x4f::Matrix4x4f(const float& m0, const float& m1, const float& m2, const 
 		m12, m13, m14, m15
 	};
 
-	for (int i = 0; i < 16; i++)
+	for (int i = 0; i < 16; ++i)
 		M[i] = list[i];
 }
 
@@ -24,7 +24,7 @@ Matrix4x4f::Matrix4x4f(const float& diag)
 		0, 0, 0, diag
 	};
 
-	for (int i = 0; i < 16; i++)
+	for (int i = 0; i < 16; ++i)
 		M[i] = list[i];
 }
 
