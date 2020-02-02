@@ -23,7 +23,7 @@ Vector3f BitmapImage::readPixel(unsigned int x, unsigned int y) const
 
 void BitmapImage::writePixel(const unsigned int& x, const unsigned int& y, const Vector3f& color)
 {
-	rgb resultColor = rgb(color.x * 255, color.y * 255, color.z * 255);
+	rgb resultColor(rgb(color.x * 255, color.y * 255, color.z * 255));
 	this->data.set_pixel(x, y, resultColor);
 }
 

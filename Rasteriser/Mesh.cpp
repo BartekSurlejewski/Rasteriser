@@ -6,7 +6,7 @@
 
 Mesh::Mesh(const std::string& filename, const Vector3f& color)
 {
-	OBJLoader* loader = new (std::nothrow) OBJLoader();
+	OBJLoader* loader(new (std::nothrow) OBJLoader());
 	loader->loadMesh(filename, *this, true, color);
 	delete loader;
 }

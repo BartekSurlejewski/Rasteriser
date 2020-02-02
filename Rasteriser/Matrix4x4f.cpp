@@ -66,7 +66,7 @@ float& Matrix4x4f::operator[](int index)
 
 Matrix4x4f& Matrix4x4f::operator*=(Matrix4x4f& other)
 {
-	*this *= other;
+	*this = *this * other;
 	return *this;
 }
 

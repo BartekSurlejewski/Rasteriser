@@ -9,7 +9,7 @@ public:
 	Transform();
 
 	Matrix4x4f getWorldMatrix() const;
-	void setWorldMatrix(Matrix4x4f& worldMatrix);
+	void setWorldMatrix(const Matrix4x4f& worldMatrix);
 
 	void translate(const Vector3f& translation);
 	void scale(const Vector3f& v);

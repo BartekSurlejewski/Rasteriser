@@ -105,9 +105,9 @@ void Rasteriser::print(Camera& camera) const noexcept
 			const float& area(edgeFunction(v0, v1, v2));
 
 			// STEP II: is this pixel contained in the projected image of the triangle?
-			for (unsigned int x(minx); x <= maxx; x++)
+			for (unsigned int x(minx); x <= maxx; ++x)
 			{
-				for (unsigned int y(miny); y <= maxy; y++)
+				for (unsigned int y(miny); y <= maxy; ++y)
 				{
 					Vector2<unsigned int> pixelSample(x + 0.5, y + 0.5);
 
