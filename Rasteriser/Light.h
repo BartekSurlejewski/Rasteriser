@@ -12,7 +12,5 @@ public:
 protected:
 	Vector3f position;
 	Vector3f ambient;
-	/*Vector3f diffuse;
-	Vector3f specular;*/
 	float shininess;
 };

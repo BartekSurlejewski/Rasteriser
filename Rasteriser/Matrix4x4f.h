@@ -10,7 +10,6 @@ public:
 	           float m12, float m13, float m14, float m15);
 	Matrix4x4f(float diag = 1.0f);
 	Matrix4x4f(const Vector4f& v1, const Vector4f& v2, const Vector4f& v3, const Vector4f& o);
-	//Matrix4x4f();
 	Matrix4x4f& operator=(Matrix4x4f other);
 
 	float& operator[](int index);

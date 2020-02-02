@@ -6,8 +6,7 @@
 class Scene
 {
 public:
-	//Scene& operator=(const Scene& other);
-	
+
 	std::vector<Mesh*>& getPrimitives();
 	void addPrimitive(Mesh& primitive);
 

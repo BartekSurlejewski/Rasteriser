@@ -20,11 +20,6 @@ Vector3f PointLight::calculate(const Vertex& vertex) const
 
 	Vector3f specular = pow(reflected.dotProduct(normalizedVertPos), shininess);
 
-	/*Vector3f diffuse = Vector3f(std::max({ 0.0f, vertex.normal.dotProduct(lightVector) }));
-
-	float specular = vertex.normal.dotProduct(lightVector);
-	specular = pow(specular, shininess);*/
-
 	Vector3f color = ambient + diffuse + specular;
 	if (color.x > 1) color.x = 1;
 	if (color.y > 1) color.y = 1;

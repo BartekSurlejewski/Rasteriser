@@ -90,12 +90,6 @@ void OBJLoader::parseFace(const std::vector<std::string>& faceLine, bool loadNor
 	}
 	else 
 	{
-		//Vector3f faceNormal;
-		//for (const auto &vertexNormalIndex : faceNormalIndices) {
-		//	faceNormal += normals[vertexNormalIndex - 1];
-		//}
-		//faceNormal /= faceNormalIndices.size();
-
 		Vertex v0(vertices[(faceVertexIndices[0] - 1)], color, normals[faceNormalIndices[0] - 1]);
 		Vertex v1(vertices[(faceVertexIndices[1] - 1)], color, normals[faceNormalIndices[1] - 1]);
 		Vertex v2(vertices[(faceVertexIndices[2] - 1)], color, normals[faceNormalIndices[2] - 1]);

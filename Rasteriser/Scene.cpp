@@ -1,13 +1,6 @@
 #include "pch.h"
 #include "Scene.h"
 
-//Scene& Scene::operator=(const Scene& other)
-//{
-//	primitives = other.getPrimitives();
-//
-//	return *this;
-//}
-
 std::vector<Mesh*>& Scene::getPrimitives()
 {
 	return primitives;

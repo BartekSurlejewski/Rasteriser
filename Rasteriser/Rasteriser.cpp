@@ -73,8 +73,6 @@ void Rasteriser::print(const Camera& camera) const
 			const Vector3f edge1 = v0 - v2;
 			const Vector3f edge2 = v1 - v0;
 
-			//std::cout << "v0: " << v0 << "v1: " << v1 << "v2: " << v2 << std::endl;
-
 			float minx = std::min({ v0.x, v1.x, v2.x });
 			float maxx = std::max({ v0.x, v1.x, v2.x });
 			float miny = std::min({ v0.y, v1.y, v2.y });
@@ -98,7 +96,6 @@ void Rasteriser::print(const Camera& camera) const
 					float lambda0 = edgeFunction(v1, v2, pixelSample); // signed area of the triangle v1v2p multiplied by 2 
 					float lambda1 = edgeFunction(v2, v0, pixelSample); // signed area of the triangle v2v0p multiplied by 2 
 					float lambda2 = edgeFunction(v0, v1, pixelSample); // signed area of the triangle v0v1p multiplied by 2
-					//float lambda2 = 1 - lambda0 - lambda1;
 
 					bool overlaps = true;
 
