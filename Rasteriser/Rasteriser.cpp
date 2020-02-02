@@ -41,7 +41,7 @@ Vector3f tr(Matrix4x4f& world, Matrix4x4f& view, Matrix4x4f& projection, const V
 	return Vector3f{ vec.x, vec.y, vec.z };
 }
 
-void Rasteriser::print(const Camera& camera) const
+void Rasteriser::print(Camera& camera) const
 {
 	PointLight pointLight({ 1, -1.5, 1.0f }, { 0.2 }, 10);
 	const std::vector<Mesh*>& models = scene->getPrimitives();
@@ -50,7 +50,7 @@ void Rasteriser::print(const Camera& camera) const
 	{
 		Mesh* primitive = models[i];
 		const std::vector<Triangle>& triangles = primitive->getFaces();
-		const Transform& transform = primitive->getTransform();
+		Transform& transform = primitive->getTransform();
 
 		Matrix4x4f w = transform.getWorldMatrix();
 		Matrix4x4f v = camera.getViewMatrix();
@@ -61,9 +61,27 @@ void Rasteriser::print(const Camera& camera) const
 			// STEP I: project vertices of the triangle using perspective projection
 			Triangle triangle = triangles[j];
 
-			const Vector3f& tmp0 = tr(w, v, p, triangle.v0.position);
-			const Vector3f& tmp1 = tr(w, v, p, triangle.v1.position);
-			const Vector3f& tmp2 = tr(w, v, p, triangle.v2.position);
+			Vertex& vert0 = triangle.v0;
+			Vertex& vert1 = triangle.v1;
+			Vertex& vert2 = triangle.v2;
+
+			const Vector3f& tmp0 = tr(w, v, p, vert0.position);
+			const Vector3f& tmp1 = tr(w, v, p, vert1.position);
+			const Vector3f& tmp2 = tr(w, v, p, vert2.position);
+
+#if LIGHTING
+			vert0.normal = w * vert0.normal;
+			vert1.normal = w * vert1.normal;
+			vert2.normal = w * vert2.normal;
+			
+			vert0.color = pointLight.calculate(vert0);
+			vert1.color = pointLight.calculate(vert1);
+			vert2.color = pointLight.calculate(vert2);
+#else
+			vert0.color = { 1, 0, 0 };
+			vert1.color = { 0, 1, 0 };
+			vert2.color = { 0, 0, 1 };
+#endif
 
 			const Vector3f& v0 = computeScreenCoordinates(tmp0);
 			const Vector3f& v1 = computeScreenCoordinates(tmp1);
@@ -116,25 +134,6 @@ void Rasteriser::print(const Camera& camera) const
 
 						if (depth < depthBuffer[x][y])
 						{
-							Vertex& vert0 = triangle.v0;
-							vert0.normal = w * vert0.normal;
-
-							Vertex& vert1 = triangle.v1;
-							vert1.normal = w * vert1.normal;
-
-							Vertex& vert2 = triangle.v2;
-							vert2.normal = w * vert2.normal;
-
-#if LIGHTING
-							vert0.color = pointLight.calculate(vert0);
-							vert1.color = pointLight.calculate(vert1);
-							vert2.color = pointLight.calculate(vert2);
-#else
-							vert0.color = { 1, 0, 0 };
-							vert1.color = { 0, 1, 0 };
-							vert2.color = { 0, 0, 1 };
-#endif
-
 							Vector3f color = lambda0 * vert0.color + lambda1
 								* vert1.color + lambda2 * vert2.color;
 

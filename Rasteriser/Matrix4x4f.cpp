@@ -1,8 +1,8 @@
 #include "pch.h"
 #include "Matrix4x4f.h"
 
-Matrix4x4f::Matrix4x4f(float m0, float m1, float m2, float m3, float m4, float m5, float m6, float m7, float m8,
-	float m9, float m10, float m11, float m12, float m13, float m14, float m15)
+Matrix4x4f::Matrix4x4f(const float& m0, const float& m1, const float& m2, const float& m3, const float& m4, const float& m5, const float& m6, const float& m7, const float& m8,
+	const float& m9, const float& m10, const float& m11, const float& m12, const float& m13, const float& m14, const float& m15)
 {
 	float list[] = {
 		m0, m1, m2, m3,
@@ -10,22 +10,22 @@ Matrix4x4f::Matrix4x4f(float m0, float m1, float m2, float m3, float m4, float m
 		m8, m9, m10, m11,
 		m12, m13, m14, m15
 	};
-	int i = 0;
-	for (float& f : list)
-		M[i++] = f;
+
+	for (int i = 0; i < 16; i++)
+		M[i] = list[i];
 }
 
-Matrix4x4f::Matrix4x4f(float diag)
+Matrix4x4f::Matrix4x4f(const float& diag)
 {
+	float list[] = {
+		diag, 0, 0, 0,
+		0, diag, 0, 0,
+		0, 0, diag, 0,
+		0, 0, 0, diag
+	};
+
 	for (int i = 0; i < 16; i++)
-	{
-		M[i] = 0;
-	}
-	
-	for (int i = 0; i < 4; i++)
-	{
-		M[i * 4 + i] = diag;
-	}
+		M[i] = list[i];
 }
 
 Matrix4x4f::Matrix4x4f(const Vector4f& v1, const Vector4f& v2, const Vector4f& v3, const Vector4f& o) : Matrix4x4f(
@@ -36,10 +36,22 @@ Matrix4x4f::Matrix4x4f(const Vector4f& v1, const Vector4f& v2, const Vector4f& v
 
 Matrix4x4f& Matrix4x4f::operator=(Matrix4x4f other)
 {
-	for (int i = 0; i < size; i++)
-	{
-		M[i] = other[i];
-	}
+	M[0] = other[0];
+	M[1] = other[1];
+	M[2] = other[2];
+	M[3] = other[3];
+	M[4] = other[4];
+	M[5] = other[5];
+	M[6] = other[6];
+	M[7] = other[7];
+	M[8] = other[8];
+	M[9] = other[9];
+	M[10] = other[10];
+	M[11] = other[11];
+	M[12] = other[12];
+	M[13] = other[13];
+	M[14] = other[14];
+	M[15] = other[15];
 
 	return *this;
 }
@@ -54,14 +66,29 @@ float& Matrix4x4f::operator[](int index)
 
 Matrix4x4f& Matrix4x4f::operator*=(Matrix4x4f& other)
 {
-	*this = *this * other;
+	*this *= other;
 	return *this;
 }
 
 Matrix4x4f& Matrix4x4f::operator*=(float scalar)
 {
-	for (int i = 0; i < size; ++i)
-		this->M[i] = M[i] * scalar;
+	M[0] *= scalar;
+	M[1] *= scalar;
+	M[2] *= scalar;
+	M[3] *= scalar;
+	M[4] *= scalar;
+	M[5] *= scalar;
+	M[6] *= scalar;
+	M[7] *= scalar;
+	M[8] *= scalar;
+	M[9] *= scalar;
+	M[10] *= scalar;
+	M[11] *= scalar;
+	M[12] *= scalar;
+	M[13] *= scalar;
+	M[14] *= scalar;
+	M[15] *= scalar;
+
 	return *this;
 }
 
@@ -76,12 +103,12 @@ Matrix4x4f& Matrix4x4f::Transpose()
 	return *this;
 }
 
-const Matrix4x4f Matrix4x4f::Identity()
+Matrix4x4f Matrix4x4f::Identity()
 {
 	Matrix4x4f m(1, 0, 0, 0,
-				0, 1, 0, 0,
-				0, 0, 1, 0,
-				0, 0, 0, 1);
-	
+		0, 1, 0, 0,
+		0, 0, 1, 0,
+		0, 0, 0, 1);
+
 	return m;
 }

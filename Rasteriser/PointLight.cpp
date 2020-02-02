@@ -7,7 +7,6 @@ PointLight::PointLight(const Vector3f& position, const Vector3f& ambient, float 
 
 Vector3f reflect(const Vector3f& I, const Vector3f&);
 
-
 Vector3f PointLight::calculate(const Vertex& vertex) const
 {
 	Vector3f lightVector = Vector3f(position - vertex.position).normalized();
