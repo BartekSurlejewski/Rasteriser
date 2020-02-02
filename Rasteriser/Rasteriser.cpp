@@ -50,7 +50,7 @@ void Rasteriser::print(const Camera& camera) const
 	{
 		Mesh* primitive = models[i];
 		const std::vector<Triangle>& triangles = primitive->getFaces();
-		const Transform& transform = primitive->getTransform();
+		Transform& transform = primitive->getTransform();
 
 		Matrix4x4f w = transform.getWorldMatrix();
 		Matrix4x4f v = camera.getViewMatrix();
@@ -61,9 +61,17 @@ void Rasteriser::print(const Camera& camera) const
 			// STEP I: project vertices of the triangle using perspective projection
 			Triangle triangle = triangles[j];
 
-			const Vector3f& tmp0 = tr(w, v, p, triangle.v0.position);
-			const Vector3f& tmp1 = tr(w, v, p, triangle.v1.position);
-			const Vector3f& tmp2 = tr(w, v, p, triangle.v2.position);
+			Vertex& vert0 = triangle.v0;
+			Vertex& vert1 = triangle.v1;
+			Vertex& vert2 = triangle.v2;
+
+			vert0.normal = w * vert0.normal;
+			vert1.normal = w * vert1.normal;
+			vert2.normal = w * vert2.normal;
+
+			const Vector3f& tmp0 = tr(w, v, p, vert0.position);
+			const Vector3f& tmp1 = tr(w, v, p, vert1.position);
+			const Vector3f& tmp2 = tr(w, v, p, vert2.position);
 
 			const Vector3f& v0 = computeScreenCoordinates(tmp0);
 			const Vector3f& v1 = computeScreenCoordinates(tmp1);
@@ -116,16 +124,7 @@ void Rasteriser::print(const Camera& camera) const
 
 						if (depth < depthBuffer[x][y])
 						{
-							Vertex& vert0 = triangle.v0;
-							vert0.normal = w * vert0.normal;
-
-							Vertex& vert1 = triangle.v1;
-							vert1.normal = w * vert1.normal;
-
-							Vertex& vert2 = triangle.v2;
-							vert2.normal = w * vert2.normal;
-
-#if LIGHTING
+#if LIGHTING						
 							vert0.color = pointLight.calculate(vert0);
 							vert1.color = pointLight.calculate(vert1);
 							vert2.color = pointLight.calculate(vert2);

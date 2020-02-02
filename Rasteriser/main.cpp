@@ -36,8 +36,8 @@ int main()
 	Mesh monkey("models/monkey.obj", { 0, 1, 0 });
 	//Transform& monkeyTransform = monkey.getTransform();
 	//monkeyTransform.scale({ 0.5 });
-	/*monkeyTransform.rotate(90, { 0, 1, 0 });
-	monkeyTransform.translate({ 0, 1, 0 });	*/
+	//monkeyTransform.rotate(90, { 0, 1, 0 });
+	//monkeyTransform.translate({ 0, 1, 0 });	
 
 	//Mesh sphere("models/sphere.obj", { 0, 1, 0 });
 	//Transform& sphereTransform = sphere.getTransform();
