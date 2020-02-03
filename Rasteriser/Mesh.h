@@ -8,6 +8,7 @@ class Mesh
 public:
 	Mesh();
 	Mesh(const std::string& filename, const Vector3f& color);
+	Mesh(const Mesh& mesh);
 	explicit Mesh(const std::vector<Triangle>& faces);
 
 	std::vector<Triangle>& getFaces();
