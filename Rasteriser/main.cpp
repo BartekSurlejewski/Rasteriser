@@ -16,18 +16,20 @@ int main()
 
 	Scene scene;
 
+#ifndef Geometry Initialization
+	
 	//octahedron
-	Mesh octahedron("models/octahedron.obj", { 0, 0, 1 });
+	Mesh octahedron("models/octahedron.obj", { 0, 1, 1 });
 	Transform& cubeTransform = octahedron.getTransform();
 	cubeTransform.scale({ 0.5, 0.5, 0.5 });
 	cubeTransform.translate({ 1, 1.5, 0 });
 
-	Mesh octahedron1("models/octahedron.obj", { 0, 0, 1 });
+	Mesh octahedron1(octahedron);
 	Transform& octahedron1Transform = octahedron1.getTransform();
 	octahedron1Transform.scale({ 0.5, 0.5, 0.5 });
 	octahedron1Transform.translate({ 1.5, 0, 0 });
 
-	Mesh octahedron2("models/octahedron.obj", { 0, 0, 1 });
+	Mesh octahedron2(octahedron);
 	Transform& octahedron2Transform = octahedron2.getTransform();
 	octahedron2Transform.scale({ 0.5, 0.5, 0.5 });
 	octahedron2Transform.translate({ 1, -1.5, 0 });
@@ -39,37 +41,34 @@ int main()
 	//monkeyTransform.rotate(90, { 0, 1, 0 });
 	//monkeyTransform.translate({ 0, 1, 0 });	
 
-	//Mesh sphere("models/sphere.obj", { 0, 1, 0 });
-	//Transform& sphereTransform = sphere.getTransform();
-	//sphereTransform.scale({ 0.1, 0.1, 0.1 });
-	//sphereTransform.rotate(90, {1, 1, 0});
-
-	Mesh octahedron3("models/octahedron.obj", { 0, 0, 1 });
+	Mesh octahedron3(octahedron);
 	Transform& octahedron3Transform = octahedron3.getTransform();
 	octahedron3Transform.scale({ 0.5, 0.5, 0.5 });
 	octahedron3Transform.translate({ -1, 1.5, 0 });
 
-	Mesh octahedron4("models/octahedron.obj", { 0, 0, 1 });
+	Mesh octahedron4(octahedron);
 	Transform& octahedron4Transform = octahedron4.getTransform();
 	octahedron4Transform.scale({ 0.5, 0.5, 0.5 });
 	octahedron4Transform.translate({ -1.5, 0, 0 });
 
-	Mesh octahedron5("models/octahedron.obj", { 0, 0, 1 });
+	Mesh octahedron5(octahedron);
 	Transform& octahedron5Transform = octahedron5.getTransform();
 	octahedron5Transform.scale({ 0.5, 0.5, 0.5 });
 	octahedron5Transform.translate({ -1, -1.5, 0 });
 
+#endif
 
+#ifndef Geometry Setup
 	scene.addPrimitive(monkey);
-	//scene.addPrimitive(sphere);
 	scene.addPrimitive(octahedron);
 	scene.addPrimitive(octahedron1);
 	scene.addPrimitive(octahedron2);
 	scene.addPrimitive(octahedron3);
 	scene.addPrimitive(octahedron4);
 	scene.addPrimitive(octahedron5);
-
-	std::shared_ptr<Image> image(new BitmapImage(Settings::ImageWidth, Settings::ImageHeight));
+#endif
+	
+	std::shared_ptr<Image> image(new (std::nothrow) BitmapImage(Settings::ImageWidth, Settings::ImageHeight));
 	const Vector3f bgColor(0.3, 0.6, 1);
 	image->writeAll(bgColor);
 	Rasteriser rasteriser(scene, image);
@@ -86,7 +85,7 @@ int main()
 
 	std::chrono::duration<double> elapsedSeconds = endTime - startTime;
 	std::cout << "Rendering took: " << elapsedSeconds.count() << "s\n";
-	std::cout << "FPS: " << 1 / elapsedSeconds.count() << "s\n";
+	std::cout << "FPS: " << 1 / elapsedSeconds.count() << "\n";
 	image->saveToFile("images/" + filename);
 
 	std::cout << "Saved image as: " << filename << std::endl;

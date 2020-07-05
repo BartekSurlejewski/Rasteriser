@@ -1,15 +1,18 @@
 #include "pch.h"
 #include "Mesh.h"
-#include <fstream>
 #include <strstream>
 #include "OBJLoader.h"
+#include <new>
 
 Mesh::Mesh(const std::string& filename, const Vector3f& color)
 {
-	OBJLoader* loader = new OBJLoader();
+	OBJLoader* loader(new (std::nothrow) OBJLoader());
 	loader->loadMesh(filename, *this, true, color);
 	delete loader;
 }
+
+Mesh::Mesh(const Mesh& mesh) : faces(mesh.faces) {}
+
 Mesh::Mesh(const std::vector<Triangle>& faces) : faces(faces) {}
 
 std::vector<Triangle>& Mesh::getFaces()
