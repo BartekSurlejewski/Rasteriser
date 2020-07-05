@@ -7,6 +7,7 @@ PointLight::PointLight(const Vector3f& position, const Vector3f& ambient, float 
 
 Vector3f reflect(const Vector3f& I, const Vector3f&);
 
+// Calculates vertex color after applying lighting to it
 inline Vector3f PointLight::calculate(const Vertex& vertex) const
 {
 	Vector3f lightVector(Vector3f(position - vertex.position).normalized());
@@ -14,7 +15,7 @@ inline Vector3f PointLight::calculate(const Vertex& vertex) const
 	Vector3f reflected(reflect(lightVector, vertex.normal));
 	Vector3f diffuse(lightVector.dotProduct(vertex.normal));
 	Vector3f specular(pow(reflected.dotProduct(normalizedVertPos), shininess));
-	Vector3f color(ambient + diffuse + specular);
+	Vector3f color(vertex.color * (ambient + diffuse + specular));
 	
 	if (color.x > 1) color.x = 1;
 	if (color.y > 1) color.y = 1;

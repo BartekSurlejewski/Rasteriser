@@ -16,8 +16,10 @@ int main()
 
 	Scene scene;
 
+#ifndef Geometry Initialization
+	
 	//octahedron
-	Mesh octahedron("models/octahedron.obj", { 0, 0, 1 });
+	Mesh octahedron("models/octahedron.obj", { 0, 1, 1 });
 	Transform& cubeTransform = octahedron.getTransform();
 	cubeTransform.scale({ 0.5, 0.5, 0.5 });
 	cubeTransform.translate({ 1, 1.5, 0 });
@@ -54,6 +56,9 @@ int main()
 	octahedron5Transform.scale({ 0.5, 0.5, 0.5 });
 	octahedron5Transform.translate({ -1, -1.5, 0 });
 
+#endif
+
+#ifndef Geometry Setup
 	scene.addPrimitive(monkey);
 	scene.addPrimitive(octahedron);
 	scene.addPrimitive(octahedron1);
@@ -61,7 +66,8 @@ int main()
 	scene.addPrimitive(octahedron3);
 	scene.addPrimitive(octahedron4);
 	scene.addPrimitive(octahedron5);
-
+#endif
+	
 	std::shared_ptr<Image> image(new (std::nothrow) BitmapImage(Settings::ImageWidth, Settings::ImageHeight));
 	const Vector3f bgColor(0.3, 0.6, 1);
 	image->writeAll(bgColor);
